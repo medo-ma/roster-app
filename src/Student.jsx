@@ -9,7 +9,7 @@ import './app.css'
 
 
 
-export default function Student({data,row}) {
+export default function StudentPage({data,row}) {
 
     /*/ HERE'S THE VALUES HENCE selectedDate an array:
     const dd = (selectedDate)= {mm = `${selectedDate.$D}`}

@@ -26,7 +26,10 @@ header {
 .headerUl a:hover {
   color: rgb(124, 203, 255);
 }
-
+/* Body */
+body{
+  justify-content: center;
+}
 /* Footer */
 footer{
   text-align: center;
@@ -74,4 +77,93 @@ th:nth-child(odd) {
 .stuName{
   text-align: center!important;
   font-size: 1.1em;
+  direction: rtl;
+}
+
+/*Step one*/
+.label1Step{
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.input1Step{
+  font-size: 1.5em;
+  height: fit-content;
+  color: rgb(87, 87, 87);
+}
+.btnf {
+  background-color: #0080ff;
+  border: 1px solid #0080ff;
+  border-radius: 4px;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: arial,sans-serif;
+  font-size: 1em;
+  height: 5vh;
+  line-height: 27px;
+  width: 50%;
+  padding: 0 16px;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-top: 10vh!important;
+  margin-bottom: 10vh;
+  }
+  
+  .btnf:hover {
+    border-color: #dadce0;
+    box-shadow: rgba(0, 0, 0, .1) 0 1px 1px;
+    color: #ffffff;
+  }
+  
+  .btnf:focus {
+    border-color: #0080ff;
+    outline: none;
+  }
+
+
+/*Step two*/
+.label2Step{
+  font-size: 1.5em;
+  justify-content:left ;
+}
+.input2Step{
+  font-size: 1em;
+  height: fit-content;
+  color: rgb(87, 87, 87);
+}
+.btng {
+  background-color: #0080ff;
+  border: 1px solid #0080ff;
+  border-radius: 4px;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: arial,sans-serif;
+  font-size: 1em;
+  height: 5vh;
+  line-height: 27px;
+  width: 50%;
+  padding: 0 16px;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-top: 10vh!important;
+  margin-bottom: 10vh;
+}
+
+.btng:hover {
+  border-color: #dadce0;
+  box-shadow: rgba(0, 0, 0, .1) 0 1px 1px;
+  color: #ffffff;
+}
+
+.btng:focus {
+  border-color: #0080ff;
+  outline: none;
+}
+hr{
+  width: 25vh;
+  margin-top: .1vh;
+  margin-bottom: 5vh;
 }
