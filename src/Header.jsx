@@ -1,4 +1,4 @@
-import './app.css'
+import './App.css'
 import { AppBar, Toolbar, List, ListItem, ListItemText, Box } from '@mui/material';
 function Header(){
     return(
