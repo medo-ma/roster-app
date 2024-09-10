@@ -1,4 +1,5 @@
-
+import './app.css'
+import { AppBar, Toolbar, List, ListItem, ListItemText, Box } from '@mui/material';
 function Header(){
     return(
         <header>
@@ -15,10 +16,10 @@ function Header(){
             <meta name="viewport" content="initial-scale=1, width=device-width" />
 
             <h1>
-                this is the header
+                your roster
             </h1>
             <nav>
-                <ul>
+                <ul className="headerUl" >
                     <li><a href="#"><h1>home</h1></a></li>
                     <li><a href="#"><h1>reverse</h1></a></li>
                 </ul>

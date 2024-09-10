@@ -7,15 +7,18 @@ function App() {
   
   return (
   <>
-  <Container maxWidth='md'>
-    <Stack direction="column" alignItems="stretch" justifyContent="space-around" spacing={5}>
-        <Header/> 
+  <Container maxWidth='md'  >
+  <Header/>
+    <Stack minHeight='100vh' direction="column" alignItems='stretch' justifyContent="space-around" spacing={5}>
+         
         <Body title={false}/>
         
-        <Footer/>
+        
         
     </Stack>
+    <Footer/>
   </Container>
+  
   </>
 
   );

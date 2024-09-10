@@ -1,3 +1,77 @@
-.btn{
-  background-color: black;
+header {
+  background-color: #00aeff;
+  padding: 1em;
+  text-align: center;
+  color: #fff;
+}
+.headerUl{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.headerUl>li{
+  margin: 0 1em;
+}
+
+.headerUl a {
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.headerUl a:hover {
+  color: rgb(124, 203, 255);
+}
+
+/* Footer */
+footer{
+  text-align: center;
+  font-size: 1em;
+}
+/* table */
+caption{
+  font-weight: bold;
+  text-align: center;
+  font-size: 1em;
+  background-color: #00aeffd8;
+  height: 2.5vh;
+  padding: 2vh 1vh;
+}
+table{
+  margin:auto;
+  width: 100%;
+  padding: 10px 20px;
+  border: 1px solid rgba(129, 129, 129, 500);
+  border-collapse: collapse;
+}
+td{
+  width: auto;
+  height:5vh;
+  text-align: center;
+  color: black;
+  font-weight: bold;
+}
+
+th{
+  color: rgba(85, 85, 85);
+  width: 12vh;
+  height:10vh;
+  text-align: center;
+}
+
+th:nth-child(even) {
+  background-color: rgba(255, 18, 97, 0.500);
+}
+th:nth-child(odd) {
+  background-color: rgba(18, 255, 18, 0.500);
+}
+
+/* div */
+.stuName{
+  text-align: center!important;
+  font-size: 1.1em;
 }

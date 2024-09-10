@@ -22,7 +22,7 @@ function Step1 ({snom, handleSet, BtnF}){
 function Step2 ({ passwrong,pass,handlePass,BtnG,student }){
     return(<>
     <Stack textAlign='center' direction='column' spacing={5}>
-    <div><h2>{student[2]}</h2></div>
+    <div className='stuName'><h2 >{student[2]}</h2></div>
     <Stack direction='row' spacing={1}>
     <label>Enter your password:</label>
     <input 
@@ -37,11 +37,11 @@ function Step2 ({ passwrong,pass,handlePass,BtnG,student }){
     </Stack>
     </>)}
 
-const Step3 = memo(({Student , row}) => (
+const Step3 = memo(({student, Student , row}) => (
     <div>
-        <h1>Step 3</h1>
+        <div className='stuName'><h2 >{student[2]}</h2></div>
         <br />
-        <Student row={row}/>
+        <Student data={student} row={row}/>
     </div>
 ));
 
@@ -101,9 +101,11 @@ export default function Body() {
 
     return (
         <>
+        <body style={{height:'10em'}}>
             {step === 1 && <Step1 snom={snom} handleSet={handleSet} BtnF={BtnF} />}
             {step === 2 && <Step2 passwrong={passwrong} pass={pass} handlePass={handlePass} student={student} BtnG={BtnG} />} 
-            {step === 3 && <Step3 Student={Student} row={row}/>}
+            {step === 3 && <Step3 student={student} Student={Student} row={row}/>}
+        </body>
         </>
     );
 }
