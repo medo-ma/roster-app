@@ -9,7 +9,7 @@ import Alerto from './Alerto'
 function Step1 ({snom, handleSet, BtnF}){
     return(<>    
     <Stack direction='row' spacing={1}>
-    <label>Enter your setting-number:</label>
+    <label>Enter your seat number:</label>
     <input 
         type='text' 
         value={snom} 
