@@ -2,7 +2,7 @@ import StudentPage from './Student.jsx';
 import React, { useState, memo } from 'react';
 
 import { Stack,Button, TextField, Box, Typography, Container } from '@mui/material';
-
+import './App.css'
 import axios from 'axios';
 import Alerto from './Alerto'
 
