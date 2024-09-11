@@ -195,13 +195,14 @@ export default function Body() {
     const [student,setStudent] = useState([]);
     const [rememberMe, setRememberMe] = useState(false);
     const [row,setRow] = useState(0)
+    const [signin,setsignin] = useState(0)
     //##button##
     //submit-button
     const bSubmit = () => setStep(step + 1);
-    const memoSubmit = () => setStep(step + 2);
+    const memoSubmit = () => setStep(step === 3);
     const bUnSubmit = () => setStep(step - 1);
     const BtnF = () => <button className='btnf'  onClick={BtnFC}>next</button>;
-    const BtnFC = ()=>{bSubmit() ; fetchData(snom)}
+    const BtnFC = ()=>{bSubmit() ; fetchData(snom);setsignin(1)}
     const BtnG = () => <button className='btng'   onClick={BtnGC}>submit</button>;
     const BtnGC = ()=>{if(pass === student[1]){
         setPasswrong(false)
@@ -260,7 +261,7 @@ useEffect(() => {
 
 // Separate useEffect to handle memoSubmit after snom and pass are updated
 useEffect(() => {
-  if (snom && pass) {
+  if (snom && pass && signin !== 1 ) {
     // Now snom and pass have been updated, we can call handlememo safely
     handlememo();
   }
