@@ -106,7 +106,7 @@ function Step3({student, row}){
         <Container component="main" maxWidth="xs">
       
         <Typography component='h1' variant="h6">
-        <div className='stuName'><h2 >أهلًا:  {student[2]} </h2></div>
+        <div className='stuName'><h2 > أهلًا يا  {student[2]} </h2></div>
         <hr></hr>
         </Typography>
         <StudentPage data={student} row={row}/>
@@ -199,10 +199,10 @@ export default function Body() {
     //##button##
     //submit-button
     const bSubmit = () => setStep(step + 1);
-    const memoSubmit = () => setStep(step === 3);
+    const memoSubmit = () => setStep(step + 2);
     const bUnSubmit = () => setStep(step - 1);
     const BtnF = () => <button className='btnf'  onClick={BtnFC}>next</button>;
-    const BtnFC = ()=>{bSubmit() ; fetchData(snom);setsignin(1)}
+    const BtnFC = ()=>{bSubmit() ; fetchData(snom)}
     const BtnG = () => <button className='btng'   onClick={BtnGC}>submit</button>;
     const BtnGC = ()=>{if(pass === student[1]){
         setPasswrong(false)
@@ -255,17 +255,19 @@ useEffect(() => {
   if (studentcode) {
     setSnom(studentcode);
     setPass(studentpass);
+    setsignin(1);
     setRememberMe(true); // Mark the checkbox as checked
   }
 }, []); // Empty dependency array ensures this runs once on mount
 
 // Separate useEffect to handle memoSubmit after snom and pass are updated
 useEffect(() => {
-  if (snom && pass && signin !== 1 ) {
+  if (snom && pass && signin === 1 ) {
     // Now snom and pass have been updated, we can call handlememo safely
+    
     handlememo();
   }
-}, [snom, pass]); // This effect runs whenever snom or pass are updated
+}, [snom, pass, signin]); // This effect runs whenever snom or pass are updated
 
 
 
