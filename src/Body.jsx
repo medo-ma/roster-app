@@ -199,7 +199,7 @@ export default function Body() {
     //##button##
     //submit-button
     const bSubmit = () => setStep(step + 1);
-    const memoSubmit = () => setStep(step + 2);
+    //const memoSubmit = () => setStep(step + 2);
     const bUnSubmit = () => setStep(step - 1);
     const BtnF = () => <button className='btnf'  onClick={BtnFC}>next</button>;
     const BtnFC = ()=>{bSubmit() ; fetchData(snom)}
@@ -244,7 +244,7 @@ export default function Body() {
       console.log(snom);
       console.log(pass);
       fetchData(snom);
-      memoSubmit();
+      //memoSubmit();
     }
 //remember me 
 // Run only once on component mount to load stored data
@@ -264,7 +264,7 @@ useEffect(() => {
 useEffect(() => {
   if (snom && pass && signin === 1 ) {
     // Now snom and pass have been updated, we can call handlememo safely
-    
+    setStep(step === 2)
     handlememo();
   }
 }, [snom, pass, signin]); // This effect runs whenever snom or pass are updated
