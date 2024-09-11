@@ -1,13 +1,13 @@
 import StudentPage from './Student.jsx';
-import React, { useState, memo } from 'react';
+import React, { useState, memo,useEffect  } from 'react';
 
-import { Stack,Button, TextField, Box, Typography, Container } from '@mui/material';
+import { Stack,Button, TextField, Box, Typography, Container,Checkbox,FormControlLabel } from '@mui/material';
 import './App.css'
 import axios from 'axios';
 import Alerto from './Alerto'
 import AlertoExist from './AlertoExist.jsx'
 
-function Step1 ({snom, handleSet, BtnF}){
+function Step1 ({snom,rememberMe, handleSet, BtnF,ForsignUp,RememberMeChange}){
     return(<>
     <Container component="main" maxWidth="xs">
     <Stack  direction='column'
@@ -51,7 +51,11 @@ function Step1 ({snom, handleSet, BtnF}){
             justifyContent: "center",
             alignItems: "center",}}  >
     <BtnF />
-    
+    <a className='signUP' onClick={ForsignUp} >sign up</a>
+    <FormControlLabel
+            control={<Checkbox checked={rememberMe} onChange={RememberMeChange} />}
+            label="Remember Me"
+          />
     </Stack>
     </Stack> 
     </Container>
@@ -179,7 +183,7 @@ function Step0({setNPass,setNSnom,Npass,Nsnom,Nname,setNname,signUp,Aleo}){
 
 export default function Body() {
     //##states##
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState(1);
     const [snom, setSnom] = useState(undefined);
     const [pass,setPass] = useState(undefined);
     const [Nsnom, setNSnom] = useState(undefined);
@@ -189,15 +193,19 @@ export default function Body() {
     const [wrong,setwrong] = useState(undefined);
     const [Aleo,setAleo] = useState(false);
     const [student,setStudent] = useState([]);
+    const [rememberMe, setRememberMe] = useState(false);
     const [row,setRow] = useState(0)
     //##button##
     //submit-button
     const bSubmit = () => setStep(step + 1);
+    const memoSubmit = () => setStep(step + 2);
+    const bUnSubmit = () => setStep(step - 1);
     const BtnF = () => <button className='btnf'  onClick={BtnFC}>next</button>;
     const BtnFC = ()=>{bSubmit() ; fetchData(snom)}
     const BtnG = () => <button className='btng'   onClick={BtnGC}>submit</button>;
     const BtnGC = ()=>{if(pass === student[1]){
         setPasswrong(false)
+        handleSubmit()
         bSubmit();
     }else{
         setPasswrong(true);
@@ -231,6 +239,52 @@ export default function Body() {
         setPass(e.target.value);
         console.log(pass)
     };
+    const handlememo = () =>{
+      console.log(snom);
+      console.log(pass);
+      fetchData(snom);
+      memoSubmit();
+    }
+//remember me 
+// Run only once on component mount to load stored data
+useEffect(() => {
+  const studentcode = localStorage.getItem('code');
+  const studentpass = localStorage.getItem('pass');
+  
+  if (studentcode) {
+    setSnom(studentcode);
+    setPass(studentpass);
+    setRememberMe(true); // Mark the checkbox as checked
+  }
+}, []); // Empty dependency array ensures this runs once on mount
+
+// Separate useEffect to handle memoSubmit after snom and pass are updated
+useEffect(() => {
+  if (snom && pass) {
+    // Now snom and pass have been updated, we can call handlememo safely
+    handlememo();
+  }
+}, [snom, pass]); // This effect runs whenever snom or pass are updated
+
+
+
+
+const handleRememberMeChange = (e) => {
+  setRememberMe(e.target.checked);
+};
+
+const handleSubmit = () => {
+  if (rememberMe) {
+    // Save the username in localStorage
+    localStorage.setItem('code', snom);
+    localStorage.setItem('pass', pass);
+  } else {
+    // Clear any stored username if the user unchecks "Remember Me"
+    localStorage.removeItem('code');
+    localStorage.removeItem('pass');
+  } // Proceed with sign-in logic
+};
+
 
 // Update fetchData to return true/false based on match
 const fetchData = async (v) => {
@@ -281,7 +335,7 @@ const fetchData = async (v) => {
         <>
         <body>
             {step === 0 && <Step0 Aleo={Aleo} Nname={Nname} setNname={setNname} Nsnom={Nsnom} Npass={Npass} setNSnom={setNSnom} setNPass={setNPass} signUp={signUp}/>}
-            {step === 1 && <Step1 snom={snom} handleSet={handleSet}  BtnF={BtnF}/>}
+            {step === 1 && <Step1 snom={snom} rememberMe={rememberMe} ForsignUp={bUnSubmit} handleSet={handleSet}  BtnF={BtnF}  RememberMeChange={handleRememberMeChange}  />}
             {step === 2 && <Step2 passwrong={passwrong} pass={pass} handlePass={handlePass} student={student} BtnG={BtnG} />} 
             {step === 3 && <Step3 student={student} signIn={BtnGC} row={row}/>}
         </body>
