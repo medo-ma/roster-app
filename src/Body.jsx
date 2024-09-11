@@ -112,7 +112,7 @@ function Step3({student, row}){
     )
 }
 
-function Step0({setNPass,setNSnom,Npass,Nsnom,signUp,Aleo}){
+function Step0({setNPass,setNSnom,Npass,Nsnom,Nname,setNname,signUp,Aleo}){
     return(<>
         <Container component="main" maxWidth="xs">
         <Box>
@@ -120,14 +120,26 @@ function Step0({setNPass,setNSnom,Npass,Nsnom,signUp,Aleo}){
         Sign-Up
         </Typography>
         <Box sx={{ mt: 1 }}>
+        <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="user name"
+            label="الأسم ثلاثي"
+            name="الأسم ثلاثي"
+            autoComplete="user name"
+            autoFocus
+            value={Nname}
+            onChange={(e)=>setNname(e.target.value)}
+          />
           <TextField
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="student code"
+            label="student code"
+            name="student code"
+            autoComplete="student code"
             autoFocus
             value={Nsnom}
             onChange={(e)=>setNSnom(e.target.value)}
@@ -173,6 +185,7 @@ export default function Body() {
     const [Nsnom, setNSnom] = useState(undefined);
     const [Npass,setNPass] = useState(undefined);
     const [passwrong,setPasswrong] = useState(undefined);
+    const [Nname,setNname] = useState(undefined);
     const [wrong,setwrong] = useState(undefined);
     const [Aleo,setAleo] = useState(false);
     const [student,setStudent] = useState([]);
@@ -253,6 +266,7 @@ const fetchData = async (v) => {
           const response = await axios.post('https://001-ochre-five.vercel.app/api/sheets/add', {
             column_a: `${Nsnom}`,
             column_b: `${Npass}`,
+            column_c: `${Nname}`,
           });
           console.log('Response:', response.data);
         } catch (error) {
@@ -264,7 +278,7 @@ const fetchData = async (v) => {
     return (
         <>
         <body>
-            {step === 0 && <Step0 Aleo={Aleo} Nsnom={Nsnom} Npass={Npass} setNSnom={setNSnom} setNPass={setNPass} signUp={signUp}/>}
+            {step === 0 && <Step0 Aleo={Aleo} Nname={Nname} setNname={setNname} Nsnom={Nsnom} Npass={Npass} setNSnom={setNSnom} setNPass={setNPass} signUp={signUp}/>}
             {step === 1 && <Step1 snom={snom} handleSet={handleSet}  BtnF={BtnF}/>}
             {step === 2 && <Step2 passwrong={passwrong} pass={pass} handlePass={handlePass} student={student} BtnG={BtnG} />} 
             {step === 3 && <Step3 student={student} signIn={BtnGC} row={row}/>}
