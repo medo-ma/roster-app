@@ -264,7 +264,7 @@ useEffect(() => {
 useEffect(() => {
   if (snom && pass && signin === 1 ) {
     // Now snom and pass have been updated, we can call handlememo safely
-    setStep(step === 2)
+    setStep(3)
     handlememo();
   }
 }, [snom, pass, signin]); // This effect runs whenever snom or pass are updated
