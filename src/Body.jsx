@@ -102,7 +102,7 @@ function Step3({student, row}){
         <Container component="main" maxWidth="xs">
       
         <Typography component='h1' variant="h6">
-        <div className='stuName'><h2 >اسم الطالب المسجل : {student[2]} </h2></div>
+        <div className='stuName'><h2 >أهلًا:  {student[2]} </h2></div>
         <hr></hr>
         </Typography>
         <StudentPage data={student} row={row}/>
@@ -264,6 +264,8 @@ const fetchData = async (v) => {
       const handleSignUp = async () => {
         try {
           const response = await axios.post('https://001-ochre-five.vercel.app/api/sheets/add', {
+            Sheet:"Sheet1",
+            range:"A:C",
             column_a: `${Nsnom}`,
             column_b: `${Npass}`,
             column_c: `${Nname}`,
