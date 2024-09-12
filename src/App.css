@@ -1,34 +1,41 @@
 header {
-  background-color: #00aeff;
-  padding: 1em;
+  background-color: rgb(29 78 216);/*blue-700*/
+  padding: .5em;
   text-align: center;
-  color: #fff;
+  color: rgb(239 246 255);/*blue-50*/
+  height: fit-content;
 }
 .headerUl{
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
+  flex-direction: row;
   justify-content: center;
 }
 
-.headerUl>li{
-  margin: 0 1em;
+.headerUl > li:first-child a {
+  color: rgb(239 246 255);
+  text-decoration: none;
+  font-size: 2em;
+  font-weight: bold;
+  margin: auto;
+ 
 }
 
 .headerUl a {
-  color: white;
+  color: rgb(51 65 85);
   text-decoration: none;
   font-size: 1em;
   font-weight: bold;
 }
-
 .headerUl a:hover {
-  color: rgb(124, 203, 255);
+  color: rgb(147 197 253);
 }
 /* Body */
 body{
   justify-content: center;
+  background-color: rgb(250 250 249);
 }
 /* Footer */
 footer{
@@ -91,8 +98,8 @@ th:nth-child(odd) {
   color: rgb(87, 87, 87);
 }
 .btnf {
-  background-color: #0080ff;
-  border: 1px solid #0080ff;
+  background-color: rgb(59 130 246);
+  border: .5px solid rgb(191 219 254);
   border-radius: 4px;
   color: #ffffff;
   cursor: pointer;
@@ -106,12 +113,12 @@ th:nth-child(odd) {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  margin-top: 10vh!important;
-  margin-bottom: 10vh;
+  margin-top: 2.5vh!important;
+  margin-bottom: 5vh;
   }
   
   .btnf:hover {
-    border-color: #dadce0;
+    border: 1px solid rgb(191 219 254);
     box-shadow: rgba(0, 0, 0, .1) 0 1px 1px;
     color: #ffffff;
   }
@@ -121,6 +128,16 @@ th:nth-child(odd) {
     outline: none;
   }
 
+  .signUP{
+    color: rgb(10 10 10);
+    text-decoration:rgb(163 163 163) underline;
+    font-family: arial,sans-serif;
+    font-size: 1.5em;
+    font-weight: bold;
+    touch-action: manipulation;
+    cursor: pointer;
+  
+  }
 
 /*Step two*/
 .label2Step{
@@ -166,14 +183,4 @@ hr{
   width: 25vh;
   margin-top: .1vh;
   margin-bottom: 5vh;
-}
-.signUP{
-  color: rgb(0, 0, 0);
-  text-decoration:#808080 underline;
-  font-family: arial,sans-serif;
-  font-size: 1.5em;
-  font-weight: bold;
-  touch-action: manipulation;
-  cursor: pointer;
-
 }

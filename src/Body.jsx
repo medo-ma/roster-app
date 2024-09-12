@@ -35,27 +35,22 @@ function Step1 ({snom,rememberMe, handleSet, BtnF,ForsignUp,RememberMeChange}){
             onChange={handleSet}
           />
     </Box>
-    <Stack  direction="row"
-            spacing={1}
-            sx={{
-            justifyContent: "center",
-            alignItems: "center",}}  >
 
-
-    </Stack>
-    <Stack  direction='column'
+    <Stack direction='column'
             spacing={3}
             sx={{
             
             width:'100%',
             justifyContent: "center",
-            alignItems: "center",}}  >
-    <BtnF />
-    <a className='signUP' onClick={ForsignUp} >sign up</a>
+            alignItems: "center",}} >
+
+    <BtnF />     
     <FormControlLabel
             control={<Checkbox checked={rememberMe} onChange={RememberMeChange} />}
             label="Remember Me"
+            
           />
+    <a className='signUP' onClick={ForsignUp} >sign up</a>
     </Stack>
     </Stack> 
     </Container>
