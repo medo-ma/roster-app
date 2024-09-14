@@ -350,7 +350,7 @@ const fetchData = async (v) => {
             {step === 1 && <Step1 scode={scode} rememberMe={rememberMe} ForsignUp={bUnSubmit} handleSet={handleSet}  BtnF={BtnF}  RememberMeChange={handleRememberMeChange}  />}
             {step === 2 && <Step2 passwrong={passwrong} pass={pass} handlePass={handlePass} student={student} BtnG={BtnG} />} 
             {step === 3 && <Step3 student={student} signIn={BtnGC} dostep={bSubmit} row={row} Vstatus={Vstatus} scode={scode} />}
-            {step === 4 && <Step4 BtnunF={BtnunF} scode={scode} sname={sname}/>}
+            {step === 4 && <Step4 BtnunF={BtnunF} scode={scode} sname={sname} setStep={setStep}/>}
         </body>
         </>
     );

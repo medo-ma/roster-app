@@ -192,7 +192,7 @@ function Page3({thirdV,setthirdV,thirdVmonth,setthirdVmonth,BtnSubmit,BtnunP}){
 </>);
 }
 
-export default function Requestion({BtnunF,scode,sname}){
+export default function Requestion({BtnunF,scode,sname,setStep}){
 
     const [page,setpage] = useState(0)
     const [error, setError] = useState(false);
@@ -218,6 +218,7 @@ export default function Requestion({BtnunF,scode,sname}){
     const BtnSubmit = () => <button className='btnf'  onClick={submit}>Submit</button>;
     const submit = async () => {
         requestV();
+        setStep(3)
     }
 
 
