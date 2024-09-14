@@ -7,7 +7,7 @@ import axios from 'axios';
 import Alerto from './Alerto'
 import AlertoExist from './AlertoExist.jsx'
 import Step4 from"./Step4.jsx"
-
+import Vstatus from"./VacationStatues.jsx"
 
 function Step1 ({scode,rememberMe, handleSet, BtnF,ForsignUp,RememberMeChange}){
     return(<>
@@ -98,7 +98,7 @@ function Step2 ({ passwrong,pass,handlePass,BtnG,student }){
     </Container>
     </>)}
 
-function Step3({student, row, dostep}){
+function Step3({student, row, dostep,Vstatus,scode}){
 
 
     return(<>
@@ -109,6 +109,7 @@ function Step3({student, row, dostep}){
         <hr></hr>
         </Typography>
         <StudentPage data={student} row={row}/>
+        <Vstatus scode={scode}/>
         <button onClick={() => dostep()}>request a vacation</button>
         </Container>
         </>
@@ -348,7 +349,7 @@ const fetchData = async (v) => {
             {step === 0 && <Step0 Aleo={Aleo} Nname={Nname} setNname={setNname} Nscode={Nscode} Npass={Npass} setNscode={setNscode} setNPass={setNPass} signUp={signUp}/>}
             {step === 1 && <Step1 scode={scode} rememberMe={rememberMe} ForsignUp={bUnSubmit} handleSet={handleSet}  BtnF={BtnF}  RememberMeChange={handleRememberMeChange}  />}
             {step === 2 && <Step2 passwrong={passwrong} pass={pass} handlePass={handlePass} student={student} BtnG={BtnG} />} 
-            {step === 3 && <Step3 student={student} signIn={BtnGC} dostep={bSubmit} row={row} />}
+            {step === 3 && <Step3 student={student} signIn={BtnGC} dostep={bSubmit} row={row} Vstatus={Vstatus} scode={scode} />}
             {step === 4 && <Step4 BtnunF={BtnunF} scode={scode} sname={sname}/>}
         </body>
         </>

@@ -224,20 +224,27 @@ export default function Requestion({BtnunF,scode,sname}){
 /* request a vacation */
 const requestV = async () => {
     try {
+      // Create a JSON object for vacation dates
+      const vacationDates = JSON.stringify({
+        first: { month: firstVmonth, day: firstV },
+        second: { month: secondVmonth, day: secondV },
+        third: { month: thirdVmonth, day: thirdV }
+      });
+  
       const response = await axios.post('https://001-ochre-five.vercel.app/api/sheets/add', {
-        Sheet:`Requests-${type}`,
-        range:"A:E",
-        column_a: `${scode}`,
-        column_b: `${sname}`,
-        column_c: `{${firstVmonth}:${firstV}}` ,
-        column_d: `{${secondVmonth}:${secondV}}`,
-        column_e: `{${thirdVmonth}:${thirdV}}`,
+        Sheet: `Requests-${type}`,      // Vacation type (e.g., "C" or "E")
+        range: "A:D",                   // Adjust range, only A:D needed now (status in separate column)
+        column_a: `${scode}`,            // Student code (unique ID)
+        column_b: `${sname}`,            // Student name
+        column_c: vacationDates,         // Store the JSON string of all vacation dates in one cell
+        column_d: "Pending"             // Initial status of the vacation request
       });
       console.log('Response:', response.data);
     } catch (error) {
       console.error('Error:', error);
     }
   };
+  
   return (
 <>
 
