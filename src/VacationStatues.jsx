@@ -71,7 +71,7 @@ const Vstatus = ({ scode }) => {
                     </thead>
                     <tbody>
                         {requests_e.length === 0 ? (
-                            <tr><td>nothing</td><td>nothing</td></tr>
+                            <tr><td>لا يوجد</td><td>لا يوجد</td></tr>
                         ) : (
                             requests_e.map((req, index) => (
                                 <tr key={index}>
