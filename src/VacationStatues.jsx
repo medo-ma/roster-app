@@ -31,55 +31,80 @@ const formatDate = (month, day) => {
   };
 
 const Vstatus = ({ scode }) => {
-    const [requests, setRequests] = useState([]);
-    const [error, setError] = useState(null);
-  
+    const [requests_c, setRequests_c] = useState([]);
+    const [requests_e, setRequests_e] = useState([]);
     // Fetch student's vacation requests
     useEffect(() => {
       const fetchStudentRequests = async () => {
-        try {
+
           const response = await axios.get('https://001-ochre-five.vercel.app/api/sheets/student-requests', {
-            params: { scode }
+            
+            params: {
+                scode,
+                Sheets:`Requests-E`,
+            }
           });
-          setRequests(response.data.requests);
-        } catch (error) {
-          setError('Error fetching requests: ' + (error.response?.data?.error || error.message));
-          console.error('Error details:', error);  // Log more details to debug
-        }
-      };
-  
+          setRequests_e(response.data.requests);};
       fetchStudentRequests();
     }, [scode]);
+
+    useEffect(() => {
+        const fetchStudentRequests = async () => {
   
-    if (error) {
-      return <div>{error}</div>;
-    }
-  
-    if (requests.length === 0) {
-      return <div>No vacation requests found for this student.</div>;
-    }
+            const response = await axios.get('https://001-ochre-five.vercel.app/api/sheets/student-requests', {
+                params: {
+                    scode,
+                    Sheets:`Requests-C`,
+                }
+            });
+            setrequests_c(response.data.requests);};
+        fetchStudentRequests();
+      }, [scode]);
+
   
     return (
+        <>
       <div>
-        <h2>Your Vacation Requests</h2>
+        
         <table>
+            <caption>طلبات العوارض </caption>
           <thead>
-            <tr>
-              <th>Vacation Dates</th>
-              <th>Status</th>
+          <tr>
+                <th>حالة الطلب</th>
+                <th>الأيام</th>
             </tr>
-          </thead>
-          <tbody>
-            {requests.map((req, index) => (
-              <tr key={index}>
-                <td>{formatDates(req.dates)}</td> {/* Format and display vacation dates */}
+            </thead>
+            <tbody>
+{ (requests_e.length === 0) ? (<tr><td>nothing</td><td>nothing</td></tr>) : (requests_e.map((req, index) => (
+                <tr key={index}>
                 <td>{req.status}</td> {/* Show the status (Pending, Approved, Rejected) */}
-              </tr>
-            ))}
+                <td>{formatDates(req.dates)}</td> {/* Format and display vacation dates */}
+                </tr>
+            )))}
           </tbody>
         </table>
       </div>
-    );
+<br />
+        <div>
+        <table>
+        <caption>طلبات الاعتيادي </caption>
+            <thead>
+            <tr>
+                <th>حالة الطلب</th>
+                <th>الأيام</th>
+            </tr>
+            </thead>
+            <tbody>
+{ (requests_c.length === 0) ? (<tr><td>لا يوجد</td><td>لا يوجد</td></tr>) : (requests_e.map((req, index) => (
+                <tr key={index}>
+                <td>{req.status}</td> {/* Show the status (Pending, Approved, Rejected) */}
+                <td>{formatDates(req.dates)}</td> {/* Format and display vacation dates */}
+                </tr>
+            )))}
+          </tbody>
+        </table>
+        </div>
+        </>);
 
 };
 
