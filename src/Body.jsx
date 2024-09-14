@@ -6,8 +6,10 @@ import './App.css'
 import axios from 'axios';
 import Alerto from './Alerto'
 import AlertoExist from './AlertoExist.jsx'
+import Step4 from"./Step4.jsx"
 
-function Step1 ({snom,rememberMe, handleSet, BtnF,ForsignUp,RememberMeChange}){
+
+function Step1 ({scode,rememberMe, handleSet, BtnF,ForsignUp,RememberMeChange}){
     return(<>
     <Container component="main" maxWidth="xs">
     <Stack  direction='column'
@@ -31,7 +33,7 @@ function Step1 ({snom,rememberMe, handleSet, BtnF,ForsignUp,RememberMeChange}){
             name="student code"
             autoComplete="student code"
             autoFocus
-            value={snom}
+            value={scode}
             onChange={handleSet}
           />
     </Box>
@@ -96,7 +98,9 @@ function Step2 ({ passwrong,pass,handlePass,BtnG,student }){
     </Container>
     </>)}
 
-function Step3({student, row}){
+function Step3({student, row, dostep}){
+
+
     return(<>
         <Container component="main" maxWidth="xs">
       
@@ -105,13 +109,13 @@ function Step3({student, row}){
         <hr></hr>
         </Typography>
         <StudentPage data={student} row={row}/>
-        
+        <button onClick={() => dostep()}>request a vacation</button>
         </Container>
         </>
     )
 }
 
-function Step0({setNPass,setNSnom,Npass,Nsnom,Nname,setNname,signUp,Aleo}){
+function Step0({setNPass,setNscode,Npass,Nscode,Nname,setNname,signUp,Aleo}){
     return(<>
         <Container component="main" maxWidth="xs">
         <Box>
@@ -140,8 +144,8 @@ function Step0({setNPass,setNSnom,Npass,Nsnom,Nname,setNname,signUp,Aleo}){
             name="student code"
             autoComplete="student code"
             autoFocus
-            value={Nsnom}
-            onChange={(e)=>setNSnom(e.target.value)}
+            value={Nscode}
+            onChange={(e)=>setNscode(e.target.value)}
           />
           <TextField
             margin="normal"
@@ -179,9 +183,10 @@ function Step0({setNPass,setNSnom,Npass,Nsnom,Nname,setNname,signUp,Aleo}){
 export default function Body() {
     //##states##
     const [step, setStep] = useState(1);
-    const [snom, setSnom] = useState(undefined);
+    const [scode, setscode] = useState(undefined);
+    const [sname, setsname] = useState(undefined);
     const [pass,setPass] = useState(undefined);
-    const [Nsnom, setNSnom] = useState(undefined);
+    const [Nscode, setNscode] = useState(undefined);
     const [Npass,setNPass] = useState(undefined);
     const [passwrong,setPasswrong] = useState(undefined);
     const [Nname,setNname] = useState(undefined);
@@ -191,13 +196,19 @@ export default function Body() {
     const [rememberMe, setRememberMe] = useState(false);
     const [row,setRow] = useState(0)
     const [signin,setsignin] = useState(0)
+    //vacation
+    const [firstV,setfirstV] = useState('');
+    const [secondV,setsecondV] = useState('');
+    const [thirdV,setthirdV] = useState('');
     //##button##
     //submit-button
     const bSubmit = () => setStep(step + 1);
     //const memoSubmit = () => setStep(step + 2);
     const bUnSubmit = () => setStep(step - 1);
     const BtnF = () => <button className='btnf'  onClick={BtnFC}>next</button>;
-    const BtnFC = ()=>{bSubmit() ; fetchData(snom)}
+    const BtnFC = ()=>{bSubmit() ; fetchData(scode)}
+    const BtnunF = () => <button className='btnf'  onClick={BtnunFC}>back</button>;
+    const BtnunFC = ()=>{bUnSubmit()}
     const BtnG = () => <button className='btng'   onClick={BtnGC}>submit</button>;
     const BtnGC = ()=>{if(pass === student[1]){
         setPasswrong(false)
@@ -209,7 +220,7 @@ export default function Body() {
     const signUp = async () => {
         try {
           // Await the fetchData request to complete and use the return value
-          const isWrong = await fetchData(Nsnom);
+          const isWrong = await fetchData(Nscode);
       
           // Check if the data is correct
           if (isWrong) {
@@ -227,8 +238,8 @@ export default function Body() {
     //##handlers##
     //handle-setting number
     const handleSet = (e) => {
-        setSnom(e.target.value);
-        console.log(snom)
+        setscode(e.target.value);
+        console.log(scode)
     };
     //handle-password
     const handlePass = (e) => {
@@ -236,9 +247,9 @@ export default function Body() {
         console.log(pass)
     };
     const handlememo = () =>{
-      console.log(snom);
+      console.log(scode);
       console.log(pass);
-      fetchData(snom);
+      fetchData(scode);
       //memoSubmit();
     }
 //remember me 
@@ -248,21 +259,21 @@ useEffect(() => {
   const studentpass = localStorage.getItem('pass');
   
   if (studentcode) {
-    setSnom(studentcode);
+    setscode(studentcode);
     setPass(studentpass);
     setsignin(1);
     setRememberMe(true); // Mark the checkbox as checked
   }
 }, []); // Empty dependency array ensures this runs once on mount
 
-// Separate useEffect to handle memoSubmit after snom and pass are updated
+// Separate useEffect to handle memoSubmit after scode and pass are updated
 useEffect(() => {
-  if (snom && pass && signin === 1 ) {
-    // Now snom and pass have been updated, we can call handlememo safely
+  if (scode && pass && signin === 1 ) {
+    // Now scode and pass have been updated, we can call handlememo safely
     setStep(3)
     handlememo();
   }
-}, [snom, pass, signin]); // This effect runs whenever snom or pass are updated
+}, [scode, pass, signin]); // This effect runs whenever scode or pass are updated
 
 
 
@@ -274,7 +285,7 @@ const handleRememberMeChange = (e) => {
 const handleSubmit = () => {
   if (rememberMe) {
     // Save the username in localStorage
-    localStorage.setItem('code', snom);
+    localStorage.setItem('code', scode);
     localStorage.setItem('pass', pass);
   } else {
     // Clear any stored username if the user unchecks "Remember Me"
@@ -302,6 +313,8 @@ const fetchData = async (v) => {
         return true; // Indicate that data is wrong
       } else {
         setStudent(response.data.matches[0].student); // Set student data
+        setsname(response.data.matches[0].student[2]);
+        setscode(response.data.matches[0].student[1])
         setRow(response.data.matches[0].index); // Set row data
         setwrong(false); // Mark as correct match
         console.log('Match found');
@@ -318,7 +331,7 @@ const fetchData = async (v) => {
           const response = await axios.post('https://001-ochre-five.vercel.app/api/sheets/add', {
             Sheet:"Sheet1",
             range:"A:C",
-            column_a: `${Nsnom}`,
+            column_a: `${Nscode}`,
             column_b: `${Npass}`,
             column_c: `${Nname}`,
           });
@@ -327,15 +340,16 @@ const fetchData = async (v) => {
           console.error('Error:', error);
         }
       };
-    
+
 
     return (
         <>
         <body>
-            {step === 0 && <Step0 Aleo={Aleo} Nname={Nname} setNname={setNname} Nsnom={Nsnom} Npass={Npass} setNSnom={setNSnom} setNPass={setNPass} signUp={signUp}/>}
-            {step === 1 && <Step1 snom={snom} rememberMe={rememberMe} ForsignUp={bUnSubmit} handleSet={handleSet}  BtnF={BtnF}  RememberMeChange={handleRememberMeChange}  />}
+            {step === 0 && <Step0 Aleo={Aleo} Nname={Nname} setNname={setNname} Nscode={Nscode} Npass={Npass} setNscode={setNscode} setNPass={setNPass} signUp={signUp}/>}
+            {step === 1 && <Step1 scode={scode} rememberMe={rememberMe} ForsignUp={bUnSubmit} handleSet={handleSet}  BtnF={BtnF}  RememberMeChange={handleRememberMeChange}  />}
             {step === 2 && <Step2 passwrong={passwrong} pass={pass} handlePass={handlePass} student={student} BtnG={BtnG} />} 
-            {step === 3 && <Step3 student={student} signIn={BtnGC} row={row}/>}
+            {step === 3 && <Step3 student={student} signIn={BtnGC} dostep={bSubmit} row={row} />}
+            {step === 4 && <Step4 BtnunF={BtnunF} scode={scode} sname={sname}/>}
         </body>
         </>
     );
