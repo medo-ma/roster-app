@@ -37,26 +37,37 @@ const Vstatus = ({ scode }) => {
 
     // Fetch student's vacation requests
     useEffect(() => {
-        const fetchStudentRequests = async () => {
+        const fetchStudentRequestsE = async () => {
             try {
                 const responseE = await axios.get('https://001-ochre-five.vercel.app/api/sheets/student-requests_e', {
                     params: { scode }
                 });
                 console.log('Requests-E:', responseE.data.requests);
                 setRequests_e(responseE.data.requests);
-
+            } catch (error) {
+                console.error('Error fetching student requests E:', error);
+            }
+        };
+    
+        fetchStudentRequestsE();
+    }, [scode]);
+    
+    useEffect(() => {
+        const fetchStudentRequestsC = async () => {
+            try {
                 const responseC = await axios.get('https://001-ochre-five.vercel.app/api/sheets/student-requests_c', {
                     params: { scode }
                 });
                 console.log('Requests-C:', responseC.data.requests);
                 setRequests_c(responseC.data.requests);
             } catch (error) {
-                console.error('Error fetching student requests:', error);
+                console.error('Error fetching student requests C:', error);
             }
         };
-
-        fetchStudentRequests();
+    
+        fetchStudentRequestsC();
     }, [scode]);
+    
 
     return (
         <>
