@@ -176,9 +176,7 @@ function Step0({setNPass,setNscode,Npass,Nscode,Nname,setNname,signUp,Aleo}){
         </>
     )
 }
-function Adminp({VacationRequests}){
-  const isAdmin = true; 
-
+function Adminp({VacationRequests,isAdmin}){ 
   return(<>
       <Container component="main" maxWidth="xs">
     
@@ -193,7 +191,7 @@ function Adminp({VacationRequests}){
 
 export default function Body() {
     //##states##
-    const [step, setStep] = useState(2);
+    const [step, setStep] = useState(1);
     const [scode, setscode] = useState(undefined);
     const [sname, setsname] = useState(undefined);
     const [pass,setPass] = useState(undefined);
@@ -207,6 +205,7 @@ export default function Body() {
     const [rememberMe, setRememberMe] = useState(false);
     const [row,setRow] = useState(0)
     const [signin,setsignin] = useState(0)
+    const [isAdmin,setisAdmin] = useState(0)
     //vacation
     const [firstV,setfirstV] = useState('');
     const [secondV,setsecondV] = useState('');
@@ -224,7 +223,14 @@ export default function Body() {
     const BtnGC = ()=>{if(pass === student[1]){
         setPasswrong(false)
         handleSubmit()
-        bSubmit();
+        if(isAdmin === 1){
+          setStep(10)
+        }else{
+          bSubmit()
+        }
+        
+        
+        ;
     }else{
         setPasswrong(true);
     }}
@@ -281,7 +287,7 @@ useEffect(() => {
 useEffect(() => {
   if (scode && pass && signin === 1 ) {
     // Now scode and pass have been updated, we can call handlememo safely
-    setStep(10)
+    setStep(3)
     handlememo();
   }
 }, [scode, pass, signin]); // This effect runs whenever scode or pass are updated
@@ -326,9 +332,12 @@ const fetchData = async (v) => {
         setStudent(response.data.matches[0].student); // Set student data
         setsname(response.data.matches[0].student[2]);
         setscode(response.data.matches[0].student[1])
+        
         setRow(response.data.matches[0].index); // Set row data
+        
         setwrong(false); // Mark as correct match
-        console.log('Match found');
+        setisAdmin(Number(response.data.matches[0].student[37]))
+        console.log(`are u ${isAdmin}`);
         return false; // Indicate data is correct
       }
     } catch (error) {
@@ -361,7 +370,7 @@ const fetchData = async (v) => {
             {step === 2 && <Step2 passwrong={passwrong} pass={pass} handlePass={handlePass} student={student} BtnG={BtnG} />} 
             {step === 3 && <Step3 student={student} signIn={BtnGC} dostep={bSubmit} row={row} Vstatus={Vstatus} scode={scode} />}
             {step === 4 && <Step4 BtnunF={BtnunF} scode={scode} sname={sname} setStep={setStep}/>}
-            {step === 10 && <Adminp VacationRequests={VacationRequests} />}
+            {step === 10 && <Adminp VacationRequests={VacationRequests} isAdmin={isAdmin}/>}
         </body>
         </>
     );
