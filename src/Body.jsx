@@ -222,7 +222,9 @@ export default function Body() {
     const BtnG = () => <button className='btng'   onClick={BtnGC}>submit</button>;
     const BtnGC = ()=>{if(pass === student[1]){
         setPasswrong(false)
+
         handleSubmit()
+
         if(isAdmin === 1){
           setStep(10)
         }else{
@@ -272,25 +274,30 @@ export default function Body() {
 //remember me 
 // Run only once on component mount to load stored data
 useEffect(() => {
+  const isAdmin = localStorage.getItem('admin');
   const studentcode = localStorage.getItem('code');
   const studentpass = localStorage.getItem('pass');
-  
-  if (studentcode) {
+  if (studentcode,studentpass,isAdmin) {
+    setisAdmin(isAdmin);
     setscode(studentcode);
     setPass(studentpass);
     setsignin(1);
+    console.log(studentpass,studentcode,isAdmin)
     setRememberMe(true); // Mark the checkbox as checked
   }
 }, []); // Empty dependency array ensures this runs once on mount
 
 // Separate useEffect to handle memoSubmit after scode and pass are updated
 useEffect(() => {
-  if (scode && pass && signin === 1 ) {
+  if (scode && pass && signin === 1 && isAdmin === 1 ) {
     // Now scode and pass have been updated, we can call handlememo safely
+    setStep(10)
+
+  }else if (scode && pass && signin === 1) {
     setStep(3)
     handlememo();
-  }
-}, [scode, pass, signin]); // This effect runs whenever scode or pass are updated
+  };
+}, [scode, pass, signin, isAdmin]); // This effect runs whenever scode or pass are updated
 
 
 
@@ -300,14 +307,17 @@ const handleRememberMeChange = (e) => {
 };
 
 const handleSubmit = () => {
+  
   if (rememberMe) {
     // Save the username in localStorage
     localStorage.setItem('code', scode);
     localStorage.setItem('pass', pass);
+    localStorage.setItem('admin', isAdmin);
   } else {
     // Clear any stored username if the user unchecks "Remember Me"
     localStorage.removeItem('code');
     localStorage.removeItem('pass');
+    localStorage.removeItem('admin');
   } // Proceed with sign-in logic
 };
 
@@ -332,12 +342,12 @@ const fetchData = async (v) => {
         setStudent(response.data.matches[0].student); // Set student data
         setsname(response.data.matches[0].student[2]);
         setscode(response.data.matches[0].student[1])
-        
+        setisAdmin(Number(response.data.matches[0].student[37]))
+        console.log(`are u ${isAdmin}`);
         setRow(response.data.matches[0].index); // Set row data
         
         setwrong(false); // Mark as correct match
-        setisAdmin(Number(response.data.matches[0].student[37]))
-        console.log(`are u ${isAdmin}`);
+
         return false; // Indicate data is correct
       }
     } catch (error) {
