@@ -1,6 +1,6 @@
 import StudentPage from './Student.jsx';
 import React, { useState, memo,useEffect  } from 'react';
-
+import VacationRequests from './admin.jsx'
 import { Stack,Button, TextField, Box, Typography, Container,Checkbox,FormControlLabel } from '@mui/material';
 import './App.css'
 import axios from 'axios';
@@ -176,14 +176,24 @@ function Step0({setNPass,setNscode,Npass,Nscode,Nname,setNname,signUp,Aleo}){
         </>
     )
 }
+function Adminp({VacationRequests}){
+  const isAdmin = true; 
 
+  return(<>
+      <Container component="main" maxWidth="xs">
+    
+<VacationRequests isAdmin ={isAdmin}/>
+      </Container>
+      </>
+  )
+}
 
 
 
 
 export default function Body() {
     //##states##
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(2);
     const [scode, setscode] = useState(undefined);
     const [sname, setsname] = useState(undefined);
     const [pass,setPass] = useState(undefined);
@@ -271,7 +281,7 @@ useEffect(() => {
 useEffect(() => {
   if (scode && pass && signin === 1 ) {
     // Now scode and pass have been updated, we can call handlememo safely
-    setStep(3)
+    setStep(10)
     handlememo();
   }
 }, [scode, pass, signin]); // This effect runs whenever scode or pass are updated
@@ -351,6 +361,7 @@ const fetchData = async (v) => {
             {step === 2 && <Step2 passwrong={passwrong} pass={pass} handlePass={handlePass} student={student} BtnG={BtnG} />} 
             {step === 3 && <Step3 student={student} signIn={BtnGC} dostep={bSubmit} row={row} Vstatus={Vstatus} scode={scode} />}
             {step === 4 && <Step4 BtnunF={BtnunF} scode={scode} sname={sname} setStep={setStep}/>}
+            {step === 10 && <Adminp VacationRequests={VacationRequests} />}
         </body>
         </>
     );
