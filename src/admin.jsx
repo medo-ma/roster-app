@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 // Helper function to format a single date
 const formatDate = (month, day) => {
     const date = new Date(2024, month - 1, day); // Placeholder year
@@ -74,9 +76,23 @@ const VacationRequests = ({ isAdmin }) => {
   // Filter to only show pending requests
   const pendingRequests = requests.filter(req => req.status === 'Pending');
 
-  return (
+
+//taps
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  return (<>
+    <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+    <Tabs value={value} onChange={handleChange} centered>
+      <Tab label="عوارض" />
+      <Tab label="اعتيادي" />
+      <Tab label="السجل" />
+    </Tabs>
+  </Box>
     <div>
-      <h2>Pending Vacation Requests</h2>
+      <h2>العوارض قيد المراجعة</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <table>
         <thead>
@@ -112,7 +128,7 @@ const VacationRequests = ({ isAdmin }) => {
         </tbody>
       </table>
     </div>
-  );
+    </>);
 };
 
 export default VacationRequests;
