@@ -88,10 +88,10 @@ export default function Etaple({ isAdmin }) {
         <thead>
           <tr>
         <th> </th>
-        <th>حالة الطلب</th>
+        {/* <th>حالة الطلب</th> */}
         <th>تواريخ الإجازة المطلوبة</th>
         <th>الاسم</th>
-        <th>رمز الطالب</th>
+        {/* <th>رمز الطالب</th> */}
           </tr>
         </thead>
         <tbody>
@@ -110,10 +110,10 @@ export default function Etaple({ isAdmin }) {
                 </div>
                 </td>
 
-                <td>{req.status}</td>
+                {/* <td>{req.status}</td> */}
                 <td>{formatDates(req.dates)}</td>
                 <td>{req.sname}</td>
-                <td>{req.scode}</td>
+                {/* <td>{req.scode}</td> */}
 
               </tr>
             ))

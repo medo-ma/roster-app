@@ -210,6 +210,17 @@ export default function Body() {
     const [firstV,setfirstV] = useState('');
     const [secondV,setsecondV] = useState('');
     const [thirdV,setthirdV] = useState('');
+    //month setter
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    //vacations setter
+    const [Vtotaldayslimit,setVtotaldayslimit] = useState(4)
+    const [Vtotaldays,setVtotaldays] = useState(0)
+    const [MaxCvacation,setMaxCvacation] = useState(15)
+    const [MaxEvacation,setMaxEvacation] = useState(3)
+    const periods = [
+      [10, 11], [12, 1], [2, 3], [4, 5], [6, 7], [8, 9]
+  ];
     //##button##
     //submit-button
     const bSubmit = () => setStep(step + 1);
@@ -321,6 +332,7 @@ const handleSubmit = () => {
   } // Proceed with sign-in logic
 };
 
+//test hereeeeeeeee
 
 // Update fetchData to return true/false based on match
 const fetchData = async (v) => {
@@ -329,7 +341,7 @@ const fetchData = async (v) => {
         params: {
           search: v,
           columns: 'A,B',
-          sheet: 'Sheet1'
+          sheet: `Sheet${month}`
         }
       });
   
@@ -341,8 +353,9 @@ const fetchData = async (v) => {
       } else {
         setStudent(response.data.matches[0].student); // Set student data
         setsname(response.data.matches[0].student[2]);
-        setscode(response.data.matches[0].student[1])
-        setisAdmin(Number(response.data.matches[0].student[37]))
+        setscode(response.data.matches[0].student[1]);
+        setVtotaldays(Number(response.data.matches[0].student[36]));
+        setisAdmin(Number(response.data.matches[0].student[39]));
         console.log(`are u ${isAdmin}`);
         setRow(response.data.matches[0].index); // Set row data
         
@@ -359,7 +372,7 @@ const fetchData = async (v) => {
       const handleSignUp = async () => {
         try {
           const response = await axios.post('https://001-ochre-five.vercel.app/api/sheets/add', {
-            Sheet:"Sheet1",
+            Sheet:`Sheet${month}`,
             range:"A:C",
             column_a: `${Nscode}`,
             column_b: `${Npass}`,
@@ -379,7 +392,7 @@ const fetchData = async (v) => {
             {step === 1 && <Step1 scode={scode} rememberMe={rememberMe} ForsignUp={bUnSubmit} handleSet={handleSet}  BtnF={BtnF}  RememberMeChange={handleRememberMeChange}  />}
             {step === 2 && <Step2 passwrong={passwrong} pass={pass} handlePass={handlePass} student={student} BtnG={BtnG} />} 
             {step === 3 && <Step3 student={student} signIn={BtnGC} dostep={bSubmit} row={row} Vstatus={Vstatus} scode={scode} />}
-            {step === 4 && <Step4 BtnunF={BtnunF} scode={scode} sname={sname} setStep={setStep}/>}
+            {step === 4 && <Step4 BtnunF={BtnunF} scode={scode} sname={sname} setStep={setStep} Vtotaldays={Vtotaldays} setVtotaldays={setVtotaldays} Vtotaldayslimit={Vtotaldayslimit} />}
             {step === 10 && <Adminp VacationRequests={VacationRequests} isAdmin={isAdmin}/>}
         </body>
         </>

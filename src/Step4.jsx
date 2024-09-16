@@ -11,7 +11,7 @@ import { useState, memo,useEffect  } from 'react';
 import axios from 'axios';
 
 
-function Page0({settype,type,BtnP,BtnunF}){
+function Page0({settype,type,BtnP,BtnunF,Vtotaldays}){
 return(
 <>
 <Container component="main" maxWidth="xs">
@@ -35,13 +35,14 @@ return(
       <BtnP/> 
 
     </Box>
+    <div><h2>{Vtotaldays}</h2></div>
     </Container>
 </>
 )
 
 }
 
-function Page1({firstV,setfirstV,firstVmonth,setfirstVmonth,BtnP,BtnunP}){
+function Page1({firstV,setfirstV,firstVmonth,setfirstVmonth,BtnP,BtnunP,Vtotaldays}){
     const [error, setError] = useState(false);
     const today = new Date();
     const day = today.getDate();
@@ -93,11 +94,12 @@ function Page1({firstV,setfirstV,firstVmonth,setfirstVmonth,BtnP,BtnunP}){
 }
 
 </Box>
+<div><h2>{Vtotaldays}</h2></div>
 </Container>
 </>
     );
 }
-function Page2({secondV,setsecondV,secondVmonth,setsecondVmonth,BtnP,BtnunP}){
+function Page2({secondV,setsecondV,secondVmonth,setsecondVmonth,BtnP,BtnunP,Vtotaldays}){
     const today = new Date();
     const day = today.getDate();
     const month = today.getMonth() + 1;
@@ -141,11 +143,12 @@ function Page2({secondV,setsecondV,secondVmonth,setsecondVmonth,BtnP,BtnunP}){
   : ((secondV > day) && (secondVmonth == month)) && <AlertoV />
 }
 </Box>
+<div><h2>{Vtotaldays}</h2></div>
 </Container>
 </>);
 }
 
-function Page3({thirdV,setthirdV,thirdVmonth,setthirdVmonth,BtnSubmit,BtnunP}){
+function Page3({thirdV,setthirdV,thirdVmonth,setthirdVmonth,BtnSubmit,BtnunP,}){
     const today = new Date();
     const day = today.getDate();
     const month = today.getMonth() + 1;
@@ -192,10 +195,47 @@ function Page3({thirdV,setthirdV,thirdVmonth,setthirdVmonth,BtnSubmit,BtnunP}){
 </>);
 }
 
-export default function Requestion({BtnunF,scode,sname,setStep}){
+function Page4({BtnSubmit,BtnunP}){
+  const today = new Date();
+  const day = today.getDate();
+  const month = today.getMonth() + 1;
+  return(<>
+<Container component="main" maxWidth="xs">
+<div className='stuName'><h2 >متأكد من إجازاتك؟</h2></div>
+<hr></hr>
+<Box sx={{ minWidth: 120 }}>
+
+<BtnunP/>
+<BtnSubmit/>
+
+{(thirdVmonth > month )
+? <AlertoV />
+: ((thirdV > day) && (thirdVmonth == month)) && <AlertoV />
+}
+</Box>
+</Container>
+</>);
+}
+function Page5({BtnunP}){
+  const today = new Date();
+  const day = today.getDate();
+  const month = today.getMonth() + 1;
+  return(<>
+<Container component="main" maxWidth="xs">
+<div className='stuName'><h2 >رصيد إجازاتك لا يكفي</h2></div>
+<hr></hr>
+<Box sx={{ minWidth: 120 }}>
+
+<BtnunP/>
+</Box>
+</Container>
+</>);
+}
+
+export default function Requestion({BtnunF,scode,sname,setStep,Vtotaldayslimit,Vtotaldays,setVtotaldays}){
 
     const [page,setpage] = useState(0)
-    const [error, setError] = useState(false);
+    const [notOvtotaldays, setnotOvtotaldays] = useState(Vtotaldays);
     const today = new Date();
     const day = today.getDate();
     const month = today.getMonth() + 1;
@@ -206,20 +246,42 @@ export default function Requestion({BtnunF,scode,sname,setStep}){
     const [secondVmonth,setsecondVmonth] = useState(0);
     const [thirdV,setthirdV] = useState(0);
     const [thirdVmonth,setthirdVmonth] = useState(0);
-
+    const [exceededlimit,setexceededlimit]=useState(false);
     const BtnP = () => <button className='btnf'  onClick={dopage}>next</button>;
     function dopage(){
-    setpage(page + 1);
+    if(exceededlimit){setpage(4)}else if(!exceededlimit && page != 0 ){setnotOvtotaldays(notOvtotaldays + 1);setpage(page + 1);} else{setpage(page + 1);};
+    
     }
     const BtnunP = () => <button className='btnf'  onClick={undopage}>back</button>;
     function undopage(){
-    setpage(page - 1);
+      if(page==0 || page==1 ){setpage(page - 1);}else if(page === 5){setStep(3)}else if(page === 4){setpage(0);setnotOvtotaldays(Vtotaldays)}else {setnotOvtotaldays(notOvtotaldays - 1);setpage(page - 1);}
+
     }
     const BtnSubmit = () => <button className='btnf'  onClick={submit}>Submit</button>;
     const submit = async () => {
         requestV();
         setStep(3)
     }
+
+//monitior for vacation limit
+    useEffect(() => {
+      const checklimit = () => {
+        if (Vtotaldayslimit - notOvtotaldays === 0 || page === 0 && notOvtotaldays ===3  ) {
+          console.log(notOvtotaldays)
+          setpage(5)
+          setexceededlimit(true);
+        }else if(notOvtotaldays === 3){
+          setpage(4)
+          console.log(notOvtotaldays)
+          
+        }else{
+          setexceededlimit(false);
+          console.log(notOvtotaldays)
+        }
+      };
+      checklimit(); // Call the function here
+    }, [notOvtotaldays]);
+    
 
 
 /* request a vacation */
@@ -259,10 +321,12 @@ const requestV = async () => {
   return (
 <>
 
-{page === 0 && <Page0 type={type} settype={settype} BtnP={BtnP} BtnunF={BtnunF} />}
-{page === 1 && <Page1 firstV={firstV} setfirstV={setfirstV}  firstVmonth={firstVmonth} setfirstVmonth={setfirstVmonth}   BtnP={BtnP} BtnunP={BtnunP} />}
-{page === 2 && <Page2 secondV={secondV} setsecondV={setsecondV} secondVmonth={secondVmonth} setsecondVmonth={setsecondVmonth} BtnP={BtnP} BtnunP={BtnunP} />}
-{page === 3 && <Page3 thirdV={thirdV} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnSubmit={BtnSubmit}/>}
+{page === 0 && <Page0 type={type} Vtotaldays={Vtotaldays} settype={settype} BtnP={BtnP} BtnunF={BtnunF} />}
+{page === 1 && <Page1 firstV={firstV} Vtotaldays={Vtotaldays} setfirstV={setfirstV}  firstVmonth={firstVmonth} setfirstVmonth={setfirstVmonth}   BtnP={BtnP} BtnunP={BtnunP} />}
+{page === 2 && <Page2 secondV={secondV} Vtotaldays={Vtotaldays} setsecondV={setsecondV} secondVmonth={secondVmonth} setsecondVmonth={setsecondVmonth} BtnP={BtnP} BtnunP={BtnunP} />}
+{page === 3 && <Page3 thirdV={thirdV} Vtotaldays={Vtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnSubmit={BtnSubmit}/>}
+{page === 4 && <Page4 thirdV={thirdV} Vtotaldays={Vtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnSubmit={BtnSubmit}/>}
+{page === 5 && <Page5 thirdV={thirdV} Vtotaldays={Vtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnSubmit={BtnSubmit}/>}
 
 </>
   );
