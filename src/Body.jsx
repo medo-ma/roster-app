@@ -108,9 +108,19 @@ function Step3({student, row, dostep,Vstatus,scode}){
         <div className='stuName'><h2 > أهلًا يا  {student[2]} </h2></div>
         <hr></hr>
         </Typography>
+        <Stack direction={row} fullWidth>
+        <Button
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            onClick={() => dostep()} // Call the function passed via props
+          >
+            request a vacation
+          </Button>
+        </Stack>
         <StudentPage data={student} row={row}/>
         <Vstatus scode={scode}/>
-        <button onClick={() => dostep()}>request a vacation</button>
+        
         </Container>
         </>
     )

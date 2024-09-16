@@ -27,7 +27,7 @@ return(
           label="نوع الإجازة"
           onChange={(e)=>settype(e.target.value)}
         >
-          <MenuItem value={"C"}>اعتيادي</MenuItem>
+          <MenuItem value={"C"} disabled>اعتيادي - معطلة حتى شهر 4 -</MenuItem>
           <MenuItem value={"E"}>عارضة</MenuItem>
         </Select>
       </FormControl>
@@ -148,7 +148,7 @@ function Page2({secondV,setsecondV,secondVmonth,setsecondVmonth,BtnP,BtnunP,Vtot
 </>);
 }
 
-function Page3({thirdV,setthirdV,thirdVmonth,setthirdVmonth,BtnSubmit,BtnunP,}){
+function Page3({thirdV,setthirdV,thirdVmonth,setthirdVmonth,BtnP,BtnunP,}){
     const today = new Date();
     const day = today.getDate();
     const month = today.getMonth() + 1;
@@ -184,7 +184,7 @@ function Page3({thirdV,setthirdV,thirdVmonth,setthirdVmonth,BtnSubmit,BtnunP,}){
         />
 </Stack>
 <BtnunP/>
-<BtnSubmit/>
+<BtnP/>
 
 {(thirdVmonth > month )
   ? <AlertoV />
@@ -207,11 +207,6 @@ function Page4({BtnSubmit,BtnunP}){
 
 <BtnunP/>
 <BtnSubmit/>
-
-{(thirdVmonth > month )
-? <AlertoV />
-: ((thirdV > day) && (thirdVmonth == month)) && <AlertoV />
-}
 </Box>
 </Container>
 </>);
@@ -248,7 +243,7 @@ export default function Requestion({BtnunF,scode,sname,setStep,Vtotaldayslimit,V
     const [thirdVmonth,setthirdVmonth] = useState(0);
     const [exceededlimit,setexceededlimit]=useState(false);
     const BtnP = () => <button className='btnf'  onClick={dopage}>next</button>;
-    function dopage(){
+    function dopage(){console.log(page);
     if(exceededlimit){setpage(4)}else if(!exceededlimit && page != 0 ){setnotOvtotaldays(notOvtotaldays + 1);setpage(page + 1);} else{setpage(page + 1);};
     
     }
@@ -324,7 +319,7 @@ const requestV = async () => {
 {page === 0 && <Page0 type={type} Vtotaldays={Vtotaldays} settype={settype} BtnP={BtnP} BtnunF={BtnunF} />}
 {page === 1 && <Page1 firstV={firstV} Vtotaldays={Vtotaldays} setfirstV={setfirstV}  firstVmonth={firstVmonth} setfirstVmonth={setfirstVmonth}   BtnP={BtnP} BtnunP={BtnunP} />}
 {page === 2 && <Page2 secondV={secondV} Vtotaldays={Vtotaldays} setsecondV={setsecondV} secondVmonth={secondVmonth} setsecondVmonth={setsecondVmonth} BtnP={BtnP} BtnunP={BtnunP} />}
-{page === 3 && <Page3 thirdV={thirdV} Vtotaldays={Vtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnSubmit={BtnSubmit}/>}
+{page === 3 && <Page3 thirdV={thirdV} Vtotaldays={Vtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnP={BtnP}/>}
 {page === 4 && <Page4 thirdV={thirdV} Vtotaldays={Vtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnSubmit={BtnSubmit}/>}
 {page === 5 && <Page5 thirdV={thirdV} Vtotaldays={Vtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnSubmit={BtnSubmit}/>}
 
