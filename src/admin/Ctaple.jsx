@@ -1,4 +1,4 @@
-import '../App.css';
+import './taple.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -86,11 +86,11 @@ export default function Ctaple({ isAdmin }) {
       <table>
         <thead>
           <tr>
-            <th>Student Code</th>
-            <th>Student Name</th>
-            <th>Vacation Dates</th>
-            <th>Status</th>
-            {isAdmin && <th>Actions</th>}
+        <th> </th>
+        <th>حالة الطلب</th>
+        <th>تواريخ الإجازة المطلوبة</th>
+        <th>الاسم</th>
+        <th>رمز الطالب</th>
           </tr>
         </thead>
         <tbody>
@@ -100,17 +100,20 @@ export default function Ctaple({ isAdmin }) {
             </tr>
           ) : (
             pendingRequests.map((req) => (
-              <tr key={req.rowIndex}>
-                <td>{req.scode}</td>
-                <td>{req.sname}</td>
-                <td>{formatDates(req.dates)}</td>
+                <tr key={req.rowIndex}>
+
+                <td>
+                <div className='button-container'>
+                <button className="Rejected" onClick={() => updateStatus(req.rowIndex, req.scode, 'Rejected', req.dates)}>رفض</button>
+                <button className="Approved" onClick={() => updateStatus(req.rowIndex, req.scode, 'Approved', req.dates)}>قبول</button>
+                </div>
+                </td>
+
                 <td>{req.status}</td>
-                {isAdmin && (
-                  <td>
-                    <button onClick={() => updateStatus(req.rowIndex, req.scode, 'Approved', req.dates)}>Approve</button>
-                    <button onClick={() => updateStatus(req.rowIndex, req.scode, 'Rejected', req.dates)}>Reject</button>
-                  </td>
-                )}
+                <td>{formatDates(req.dates)}</td>
+                <td>{req.sname}</td>
+                <td>{req.scode}</td>
+
               </tr>
             ))
           )}

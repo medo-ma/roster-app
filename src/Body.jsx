@@ -178,9 +178,9 @@ function Step0({setNPass,setNscode,Npass,Nscode,Nname,setNname,signUp,Aleo}){
 }
 function Adminp({VacationRequests,isAdmin}){ 
   return(<>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="md">
     
-<VacationRequests isAdmin ={isAdmin}/>
+      <VacationRequests isAdmin ={isAdmin}/>
       </Container>
       </>
   )

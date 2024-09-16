@@ -11,7 +11,7 @@ function App() {
   <Header/>
   <Container maxWidth='md'  >
   
-    <Stack minHeight='100vh' direction="column" alignItems='stretch' justifyContent="space-around" spacing={5}>
+    <Stack minHeight='100vh' direction="column" alignItems='stretch' justifyContent="space-around" spacing={2}>
          
         <Body title={false}/>
         

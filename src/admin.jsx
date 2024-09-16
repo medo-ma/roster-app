@@ -29,12 +29,12 @@ const handleChange = (event, newValue) => {
     <Tabs value={value} onChange={handleChange} centered>
       <Tab label="عوارض" />
       <Tab label="اعتيادي" />
-      <Tab label="السجل" />
+      <Tab label="السجل" disabled  />
     </Tabs>
   </Box>
 
-  {value === 0 && <Ctaple isAdmin={isAdmin}/>}
-  {value === 1 && <Etaple isAdmin={isAdmin}/>}
+  {value === 1 && <Ctaple isAdmin={isAdmin}/>}
+  {value === 0 && <Etaple isAdmin={isAdmin}/>}
     </>);
 };
 
