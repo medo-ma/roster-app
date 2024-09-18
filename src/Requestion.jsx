@@ -227,7 +227,7 @@ function Page5({BtnunP}){
 </>);
 }
 
-export default function Requestion({BtnunF,scode,sname,setStep,Vtotaldayslimit,Vtotaldays,setVtotaldays}){
+export default function Requestion({pendingv,BtnunF,scode,sname,setStep,Vtotaldayslimit,Vtotaldays,setVtotaldays}){
 
     const [page,setpage] = useState(0)
     const [notOvtotaldays, setnotOvtotaldays] = useState(Vtotaldays);
@@ -243,7 +243,7 @@ export default function Requestion({BtnunF,scode,sname,setStep,Vtotaldayslimit,V
     const [thirdVmonth,setthirdVmonth] = useState(0);
     const [exceededlimit,setexceededlimit]=useState(false);
     const BtnP = () => <button className='btnf'  onClick={dopage}>next</button>;
-    function dopage(){console.log(page);
+    function dopage(){console.log(page,pendingv,notOvtotaldays);
     if(exceededlimit){setpage(4)}else if(!exceededlimit && page != 0 ){setnotOvtotaldays(notOvtotaldays + 1);setpage(page + 1);} else{setpage(page + 1);};
     
     }
@@ -257,7 +257,15 @@ export default function Requestion({BtnunF,scode,sname,setStep,Vtotaldayslimit,V
         requestV();
         setStep(3)
     }
+////////////////////////////here .....
+    useEffect(()=>{
+      if (pendingv == 3){
+        setpage(5)
+      }else if(pendingv < 3){
+          setnotOvtotaldays(pendingv+notOvtotaldays)
+        }
 
+    },[pendingv])
 //monitior for vacation limit
     useEffect(() => {
       const checklimit = () => {
@@ -316,12 +324,12 @@ const requestV = async () => {
   return (
 <>
 
-{page === 0 && <Page0 type={type} Vtotaldays={Vtotaldays} settype={settype} BtnP={BtnP} BtnunF={BtnunF} />}
-{page === 1 && <Page1 firstV={firstV} Vtotaldays={Vtotaldays} setfirstV={setfirstV}  firstVmonth={firstVmonth} setfirstVmonth={setfirstVmonth}   BtnP={BtnP} BtnunP={BtnunP} />}
-{page === 2 && <Page2 secondV={secondV} Vtotaldays={Vtotaldays} setsecondV={setsecondV} secondVmonth={secondVmonth} setsecondVmonth={setsecondVmonth} BtnP={BtnP} BtnunP={BtnunP} />}
-{page === 3 && <Page3 thirdV={thirdV} Vtotaldays={Vtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnP={BtnP}/>}
-{page === 4 && <Page4 thirdV={thirdV} Vtotaldays={Vtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnSubmit={BtnSubmit}/>}
-{page === 5 && <Page5 thirdV={thirdV} Vtotaldays={Vtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnSubmit={BtnSubmit}/>}
+{page === 0 && <Page0 type={type} Vtotaldays={notOvtotaldays} settype={settype} BtnP={BtnP} BtnunF={BtnunF} />}
+{page === 1 && <Page1 firstV={firstV} Vtotaldays={notOvtotaldays} setfirstV={setfirstV}  firstVmonth={firstVmonth} setfirstVmonth={setfirstVmonth}   BtnP={BtnP} BtnunP={BtnunP} />}
+{page === 2 && <Page2 secondV={secondV} Vtotaldays={notOvtotaldays} setsecondV={setsecondV} secondVmonth={secondVmonth} setsecondVmonth={setsecondVmonth} BtnP={BtnP} BtnunP={BtnunP} />}
+{page === 3 && <Page3 thirdV={thirdV} Vtotaldays={notOvtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnP={BtnP}/>}
+{page === 4 && <Page4 thirdV={thirdV} Vtotaldays={notOvtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnSubmit={BtnSubmit}/>}
+{page === 5 && <Page5 thirdV={thirdV} Vtotaldays={notOvtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnSubmit={BtnSubmit}/>}
 
 </>
   );

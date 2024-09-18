@@ -31,10 +31,72 @@ const formatDates = (datesString) => {
     }
 };
 
-const Vstatus = ({ scode }) => {
+const Vstatus = ({ scode, pendingv, setpendingv }) => {
     const [requests_c, setRequests_c] = useState([]);
     const [requests_e, setRequests_e] = useState([]);
+    const lookhere='loook here>>>>>>>>>>>>>>'
+    useEffect(()=> {
+    const pendingVfetcher =()=>{
+    const pend_e = requests_e.filter(req => req.status === 'Pending');
+    const pend_enum = pend_e.filter(request => {
+        let dates;
+        try {
+            dates = JSON.parse(request.dates);
+        } catch (e) {
+            return false; // Skip this request if dates cannot be parsed
+        }
 
+        // Ensure dates.first is defined and has a non-empty day value
+        if (!dates.first || dates.first.day === undefined || dates.first.day === "") {
+            return false;
+        }
+
+        return true;
+    })
+    .map(request => {
+        let dates = JSON.parse(request.dates);
+        return [
+            dates.first.day,
+            dates.second && dates.second.day !== undefined && dates.second.day !== "" ? dates.second.day : undefined,
+            dates.third && dates.third.day !== undefined && dates.third.day !== "" ? dates.third.day : undefined
+        ];
+    })
+    .flat() // Flatten the array of arrays into a single array
+    .filter(day => day !== undefined && day !== ""); // Flatten the array of arrays into a single array
+    
+    
+    const pend_c = requests_c.filter(req => req.status === 'Pending');
+    const pend_cnum = pend_c.filter(request => {
+        let dates;
+        try {
+            dates = JSON.parse(request.dates);
+        } catch (e) {
+            return false; // Skip this request if dates cannot be parsed
+        }
+
+        // Ensure dates.first is defined and has a non-empty day value
+        if (!dates.first || dates.first.day === undefined || dates.first.day === "") {
+            return false;
+        }
+
+        return true;
+    })
+    .map(request => {
+        let dates = JSON.parse(request.dates);
+        return [
+            dates.first.day,
+            dates.second && dates.second.day !== undefined && dates.second.day !== "" ? dates.second.day : undefined,
+            dates.third && dates.third.day !== undefined && dates.third.day !== "" ? dates.third.day : undefined
+        ];
+    })
+    .flat() // Flatten the array of arrays into a single array
+    .filter(day => day !== undefined && day !== ""); // Flatten the array of arrays into a single array
+    setpendingv((pend_e.length * pend_enum.length) + (pend_c.length * pend_cnum.length));
+    console.log(lookhere,pend_enum )
+    console.log(pend_e.length + pend_c.length, pendingv,pend_enum.length,pend_cnum.length);
+    };pendingVfetcher();
+
+},[requests_c,requests_e])
     // Fetch student's vacation requests
     useEffect(() => {
         const fetchStudentRequestsE = async () => {

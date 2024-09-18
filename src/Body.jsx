@@ -6,7 +6,7 @@ import './App.css'
 import axios from 'axios';
 import Alerto from './Alerto'
 import AlertoExist from './AlertoExist.jsx'
-import Step4 from"./Step4.jsx"
+import Requestion from"./Requestion.jsx"
 import Vstatus from"./VacationStatues.jsx"
 
 function Step1 ({scode,rememberMe, handleSet, BtnF,ForsignUp,RememberMeChange}){
@@ -98,7 +98,7 @@ function Step2 ({ passwrong,pass,handlePass,BtnG,student }){
     </Container>
     </>)}
 
-function Step3({student, row, dostep,Vstatus,scode}){
+function Step3({student, row, dostep,Vstatus,scode,pendingv,setpendingv}){
 
 
     return(<>
@@ -119,7 +119,7 @@ function Step3({student, row, dostep,Vstatus,scode}){
           </Button>
         </Stack>
         <StudentPage data={student} row={row}/>
-        <Vstatus scode={scode}/>
+        <Vstatus pendingv={pendingv} setpendingv={setpendingv} scode={scode}/>
         
         </Container>
         </>
@@ -217,6 +217,7 @@ export default function Body() {
     const [signin,setsignin] = useState(0)
     const [isAdmin,setisAdmin] = useState(0)
     //vacation
+
     const [firstV,setfirstV] = useState('');
     const [secondV,setsecondV] = useState('');
     const [thirdV,setthirdV] = useState('');
@@ -226,6 +227,7 @@ export default function Body() {
     //vacations setter
     const [Vtotaldayslimit,setVtotaldayslimit] = useState(4)
     const [Vtotaldays,setVtotaldays] = useState(0)
+    const [pendingv,setpendingv] = useState(0)
     const [MaxCvacation,setMaxCvacation] = useState(15)
     const [MaxEvacation,setMaxEvacation] = useState(3)
     const periods = [
@@ -401,8 +403,8 @@ const fetchData = async (v) => {
             {step === 0 && <Step0 Aleo={Aleo} Nname={Nname} setNname={setNname} Nscode={Nscode} Npass={Npass} setNscode={setNscode} setNPass={setNPass} signUp={signUp}/>}
             {step === 1 && <Step1 scode={scode} rememberMe={rememberMe} ForsignUp={bUnSubmit} handleSet={handleSet}  BtnF={BtnF}  RememberMeChange={handleRememberMeChange}  />}
             {step === 2 && <Step2 passwrong={passwrong} pass={pass} handlePass={handlePass} student={student} BtnG={BtnG} />} 
-            {step === 3 && <Step3 student={student} signIn={BtnGC} dostep={bSubmit} row={row} Vstatus={Vstatus} scode={scode} />}
-            {step === 4 && <Step4 BtnunF={BtnunF} scode={scode} sname={sname} setStep={setStep} Vtotaldays={Vtotaldays} setVtotaldays={setVtotaldays} Vtotaldayslimit={Vtotaldayslimit} />}
+            {step === 3 && <Step3 student={student} pendingv={pendingv} setpendingv={setpendingv} signIn={BtnGC} dostep={bSubmit} row={row} Vstatus={Vstatus} scode={scode} />}
+            {step === 4 && <Requestion pendingv={pendingv} BtnunF={BtnunF} scode={scode} sname={sname} setStep={setStep} Vtotaldays={Vtotaldays} setVtotaldays={setVtotaldays} Vtotaldayslimit={Vtotaldayslimit} />}
             {step === 10 && <Adminp VacationRequests={VacationRequests} isAdmin={isAdmin}/>}
         </body>
         </>

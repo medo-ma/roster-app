@@ -44,8 +44,8 @@ export default function StudentPage({data,row}) {
           {data.map((cell, cellIndex) => <td key={cellIndex}>{cell}</td>) }
           </tr> */}
           <tr>
-          <td>{7-data[34]}</td>
-          <td>{3-data[35]}</td>
+          <td>{7-data[37]}</td>
+          <td>{3-data[38]}</td>
           </tr>
         </tbody>
       </table>
