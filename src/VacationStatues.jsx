@@ -91,7 +91,7 @@ const Vstatus = ({ scode, pendingv, setpendingv }) => {
     })
     .flat() // Flatten the array of arrays into a single array
     .filter(day => day !== undefined && day !== ""); // Flatten the array of arrays into a single array
-    setpendingv((pend_e.length * pend_enum.length) + (pend_c.length * pend_cnum.length));
+    setpendingv((pend_enum.length) + (pend_cnum.length));
     console.log(lookhere,pend_enum )
     console.log(pend_e.length + pend_c.length, pendingv,pend_enum.length,pend_cnum.length);
     };pendingVfetcher();
