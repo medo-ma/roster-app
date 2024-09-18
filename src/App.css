@@ -48,8 +48,8 @@ caption{
   text-align: center;
   font-size: 1em;
   background-color: #00aeffd8;
-  height: 2.5vh;
-  padding: 2vh 1vh;
+  height: 3vh;
+  padding: 1vh 1vh;
 }
 table{
   margin:auto;
@@ -69,7 +69,7 @@ td{
 th{
   color: rgba(85, 85, 85);
   width: 12vh;
-  height:10vh;
+  height:4vh;
   text-align: center;
 }
 
