@@ -98,7 +98,7 @@ function Step2 ({ passwrong,pass,handlePass,BtnG,student }){
     </Container>
     </>)}
 
-function Step3({student, row, dostep,Vstatus,scode,pendingv,setpendingv}){
+function Step3({student, row, dostep,Vstatus,scode,pendingv,setpendingv,totalV_C,totalV_E}){
 
 
     return(<>
@@ -118,7 +118,7 @@ function Step3({student, row, dostep,Vstatus,scode,pendingv,setpendingv}){
             request a vacation
           </Button>
         </Stack>
-        <StudentPage data={student} row={row}/>
+        <StudentPage totalV_C={totalV_C} totalV_E={totalV_E} data={student} row={row}/>
         <Vstatus pendingv={pendingv} setpendingv={setpendingv} scode={scode}/>
         
         </Container>
@@ -218,9 +218,10 @@ export default function Body() {
     const [isAdmin,setisAdmin] = useState(0)
     //vacation
 
-    const [firstV,setfirstV] = useState('');
-    const [secondV,setsecondV] = useState('');
-    const [thirdV,setthirdV] = useState('');
+    const [E_vacation,setE_vacation] = useState(3);
+    const [C_vacation,setC_vacation] = useState(7.5);
+    const [totalV_C,settotalV_C] = useState('wait');
+    const [totalV_E,settotalV_E] = useState('wait');
     //month setter
     const today = new Date();
     const month = today.getMonth() + 1;
@@ -345,6 +346,11 @@ const handleSubmit = () => {
 };
 
 //test hereeeeeeeee
+useEffect(()=>{
+  settotalV_C(C_vacation-student[37])
+  settotalV_E(E_vacation-student[38])
+
+},[student])
 
 // Update fetchData to return true/false based on match
 const fetchData = async (v) => {
@@ -403,8 +409,8 @@ const fetchData = async (v) => {
             {step === 0 && <Step0 Aleo={Aleo} Nname={Nname} setNname={setNname} Nscode={Nscode} Npass={Npass} setNscode={setNscode} setNPass={setNPass} signUp={signUp}/>}
             {step === 1 && <Step1 scode={scode} rememberMe={rememberMe} ForsignUp={bUnSubmit} handleSet={handleSet}  BtnF={BtnF}  RememberMeChange={handleRememberMeChange}  />}
             {step === 2 && <Step2 passwrong={passwrong} pass={pass} handlePass={handlePass} student={student} BtnG={BtnG} />} 
-            {step === 3 && <Step3 student={student} pendingv={pendingv} setpendingv={setpendingv} signIn={BtnGC} dostep={bSubmit} row={row} Vstatus={Vstatus} scode={scode} />}
-            {step === 4 && <Requestion pendingv={pendingv} BtnunF={BtnunF} scode={scode} sname={sname} setStep={setStep} Vtotaldays={Vtotaldays} setVtotaldays={setVtotaldays} Vtotaldayslimit={Vtotaldayslimit} />}
+            {step === 3 && <Step3 totalV_C={totalV_C} totalV_E={totalV_E} student={student} pendingv={pendingv} setpendingv={setpendingv} signIn={BtnGC} dostep={bSubmit} row={row} Vstatus={Vstatus} scode={scode} />}
+            {step === 4 && <Requestion totalV_E={totalV_E} totalV_C={totalV_C} pendingv={pendingv} BtnunF={BtnunF} scode={scode} sname={sname} setStep={setStep} Vtotaldays={Vtotaldays} setVtotaldays={setVtotaldays} Vtotaldayslimit={Vtotaldayslimit} />}
             {step === 10 && <Adminp VacationRequests={VacationRequests} isAdmin={isAdmin}/>}
         </body>
         </>

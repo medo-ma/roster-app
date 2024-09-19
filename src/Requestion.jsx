@@ -11,7 +11,25 @@ import { useState, memo,useEffect  } from 'react';
 import axios from 'axios';
 
 
-function Page0({settype,type,BtnP,BtnunF,Vtotaldays}){
+function Page0({settype,type,BtnP,BtnunF,Vtotaldays,totalV_C,totalV_E}){
+  const [disV_c,setdisV_c]=useState(false)
+  const [disV_e,setdisV_e]=useState(false)
+  const date = new Date() 
+  const month = date.getMonth() + 1
+  const year = date.getUTCFullYear()
+  useEffect(() => {
+  if(totalV_E === 0){
+    setdisV_e(true)
+  };
+  if(year < 2025 ){
+    setdisV_c(true)
+  }else if(month > 3){
+    setdisV_c(true)
+  }else if(totalV_C===0){
+    setdisV_e(true)
+  }
+  console.log(year,month)
+  } )
 return(
 <>
 <Container component="main" maxWidth="xs">
@@ -27,12 +45,12 @@ return(
           label="نوع الإجازة"
           onChange={(e)=>settype(e.target.value)}
         >
-          <MenuItem value={"C"} disabled>اعتيادي - معطلة حتى شهر 4 -</MenuItem>
-          <MenuItem value={"E"}>عارضة</MenuItem>
+          <MenuItem value={"C"} disabled={disV_c}>اعتيادي - معطلة حتى شهر 4 -</MenuItem>
+          <MenuItem value={"E"} disabled={disV_e}>عارضة</MenuItem>
         </Select>
       </FormControl>
       <BtnunF/>
-      <BtnP/> 
+      {type !== undefined && <BtnP/>} 
 
     </Box>
     <div><h2>{Vtotaldays}</h2></div>
@@ -227,7 +245,7 @@ function Page5({BtnunP}){
 </>);
 }
 
-export default function Requestion({pendingv,BtnunF,scode,sname,setStep,Vtotaldayslimit,Vtotaldays,setVtotaldays}){
+export default function Requestion({totalV_E,totalV_C,pendingv,BtnunF,scode,sname,setStep,Vtotaldayslimit,Vtotaldays,setVtotaldays}){
 
     const [page,setpage] = useState(0)
     const [notOvtotaldays, setnotOvtotaldays] = useState(Vtotaldays);
@@ -269,7 +287,7 @@ export default function Requestion({pendingv,BtnunF,scode,sname,setStep,Vtotalda
 //monitior for vacation limit
     useEffect(() => {
       const checklimit = () => {
-        if (Vtotaldayslimit - notOvtotaldays === 0 || page === 0 && notOvtotaldays ===3  ) {
+        if (Vtotaldayslimit - notOvtotaldays === 0 || page === 0 && notOvtotaldays === 3  ) {
           console.log(notOvtotaldays)
           setpage(5)
           setexceededlimit(true);
@@ -324,7 +342,7 @@ const requestV = async () => {
   return (
 <>
 
-{page === 0 && <Page0 type={type} Vtotaldays={notOvtotaldays} settype={settype} BtnP={BtnP} BtnunF={BtnunF} />}
+{page === 0 && <Page0 totalV_E={totalV_E} totalV_C={totalV_C} type={type} Vtotaldays={notOvtotaldays} settype={settype} BtnP={BtnP} BtnunF={BtnunF} />}
 {page === 1 && <Page1 firstV={firstV} Vtotaldays={notOvtotaldays} setfirstV={setfirstV}  firstVmonth={firstVmonth} setfirstVmonth={setfirstVmonth}   BtnP={BtnP} BtnunP={BtnunP} />}
 {page === 2 && <Page2 secondV={secondV} Vtotaldays={notOvtotaldays} setsecondV={setsecondV} secondVmonth={secondVmonth} setsecondVmonth={setsecondVmonth} BtnP={BtnP} BtnunP={BtnunP} />}
 {page === 3 && <Page3 thirdV={thirdV} Vtotaldays={notOvtotaldays} setthirdV={setthirdV} thirdVmonth={thirdVmonth} setthirdVmonth={setthirdVmonth} BtnunP={BtnunP} BtnP={BtnP}/>}

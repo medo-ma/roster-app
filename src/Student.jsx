@@ -9,7 +9,7 @@ import './App.css'
 
 
 
-export default function StudentPage({data,row}) {
+export default function StudentPage({data,row,totalV_C,totalV_E}) {
 
     /*/ HERE'S THE VALUES HENCE selectedDate an array:
     const dd = (selectedDate)= {mm = `${selectedDate.$D}`}
@@ -44,8 +44,8 @@ export default function StudentPage({data,row}) {
           {data.map((cell, cellIndex) => <td key={cellIndex}>{cell}</td>) }
           </tr> */}
           <tr>
-          <td>{7-data[37]}</td>
-          <td>{3-data[38]}</td>
+          <td>{totalV_C}</td>
+          <td>{totalV_E}</td>
           </tr>
         </tbody>
       </table>
