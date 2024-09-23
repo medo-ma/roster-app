@@ -277,32 +277,36 @@ export default function Requestion({totalV_E,totalV_C,pendingv,BtnunF,scode,snam
     }
 ////////////////////////////here .....
     useEffect(()=>{
-      if (pendingv == 3){
+      if (pendingv === 3){
         setpage(5)
-      }else if(pendingv < 3){
-          setnotOvtotaldays(pendingv+notOvtotaldays)
-        }
-
-    },[pendingv])
-//monitior for vacation limit
-    useEffect(() => {
-      const checklimit = () => {
-        if (Vtotaldayslimit - notOvtotaldays === 0 || page === 0 && notOvtotaldays === 3  ) {
-          console.log(notOvtotaldays)
-          setpage(5)
-          setexceededlimit(true);
-        }else if(notOvtotaldays === 3){
-          setpage(4)
-          console.log(notOvtotaldays)
+      }else if(pendingv !== 0 ){
+          console.log(`proplem is here ${pendingv} ${notOvtotaldays}`)
+          setnotOvtotaldays(pendingv + notOvtotaldays)
           
         }else{
-          setexceededlimit(false);
-          console.log(notOvtotaldays)
+          console.log(`proplem not`)
         }
-      };
-      checklimit(); // Call the function here
-    }, [notOvtotaldays]);
-    
+
+    },[pendingv,page])
+
+//monitior for vacation limit
+useEffect(() => {
+  const checklimit = () => {
+    if (notOvtotaldays === 3 && Vtotaldays === 3 ||Vtotaldayslimit - notOvtotaldays <= 0 || page === 0 && notOvtotaldays === 4 ) {
+      console.log(`first : ${notOvtotaldays}`)
+      setpage(5)
+      setexceededlimit(true);
+    }else if(notOvtotaldays === 3){
+      setpage(4)
+      console.log(`notOvtotaldays === 3 : ${notOvtotaldays} ${pendingv} ${notOvtotaldays}`)
+      
+    }else{
+      setexceededlimit(false);
+      console.log(notOvtotaldays)
+    }
+  };
+  checklimit(); // Call the function here
+}, [page]);
 
 
 /* request a vacation */
