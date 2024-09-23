@@ -245,7 +245,7 @@ function Page5({BtnunP}){
 </>);
 }
 
-export default function Requestion({totalV_E,totalV_C,pendingv,BtnunF,scode,sname,setStep,Vtotaldayslimit,Vtotaldays,setVtotaldays}){
+export default function Requestion({fetchData,totalV_E,totalV_C,pendingv,BtnunF,scode,sname,setStep,Vtotaldayslimit,Vtotaldays,setVtotaldays}){
 
     const [page,setpage] = useState(0)
     const [notOvtotaldays, setnotOvtotaldays] = useState(Vtotaldays);
@@ -279,7 +279,7 @@ export default function Requestion({totalV_E,totalV_C,pendingv,BtnunF,scode,snam
     useEffect(()=>{
       if (pendingv === 3){
         setpage(5)
-      }else if(pendingv !== 0 ){
+      }else if(pendingv !== 0 && page === 0 ){
           console.log(`proplem is here ${pendingv} ${notOvtotaldays}`)
           setnotOvtotaldays(pendingv + notOvtotaldays)
           
@@ -298,7 +298,7 @@ useEffect(() => {
       setexceededlimit(true);
     }else if(notOvtotaldays === 3){
       setpage(4)
-      console.log(`notOvtotaldays === 3 : ${notOvtotaldays} ${pendingv} ${notOvtotaldays}`)
+      console.log(`notOvtotaldays === 3 : ${notOvtotaldays} ${pendingv} `)
       
     }else{
       setexceededlimit(false);
@@ -338,7 +338,10 @@ const requestV = async () => {
         column_d: "Pending"             // Initial status of the vacation request
       });
       console.log('Response:', response.data);
-    } catch (error) {
+      setTimeout(() => {
+        fetchData;
+      }, 2000);
+    }catch (error) {
       console.error('Error:', error);
     }
   };
