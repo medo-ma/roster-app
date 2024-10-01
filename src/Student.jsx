@@ -30,7 +30,7 @@ export default function StudentPage({data,row,totalV_C,totalV_E}) {
     // }, []);
       return (
 <div>
-      <table border="1">
+      <table className='v_balance' border="1">
       <caption>رصيد الإجازات</caption>
         <thead>
           <tr>

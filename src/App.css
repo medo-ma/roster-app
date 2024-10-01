@@ -1,3 +1,7 @@
+h1,h2,h3,h4{
+  font-family: amiri;
+}
+
 header {
   background-color: rgb(29 78 216);/*blue-700*/
   padding: .5em;
@@ -42,23 +46,27 @@ footer{
   text-align: center;
   font-size: 1em;
 }
+/*v-balance table*/
 /* table */
-caption{
+.v_balance caption{
   font-weight: bold;
   text-align: center;
-  font-size: 1em;
-  background-color: #00aeffd8;
+  font-size: 1.1em;
+  background-color: rgb(10 10 10);
+  color: #dadce0;
   height: 3vh;
   padding: 1vh 1vh;
 }
-table{
-  margin:auto;
-  width: 100%;
-  padding: 10px 20px;
-  border: 1px solid rgba(129, 129, 129, 500);
+.v_balance {
   border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: amiri;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(129, 129, 129, 500);
+
 }
-td{
+.v_balance td{
   width: auto;
   height:5vh;
   text-align: center;
@@ -66,18 +74,52 @@ td{
   font-weight: bold;
 }
 
-th{
-  color: rgba(85, 85, 85);
+.v_balance th{
+  color: #fff;
   width: 12vh;
   height:4vh;
   text-align: center;
 }
 
-th:nth-child(even) {
-  background-color: rgba(255, 18, 97, 0.500);
+.v_balance th:nth-child(even) {
+  background-color: rgba(244 63 94);
 }
-th:nth-child(odd) {
-  background-color: rgba(18, 255, 18, 0.500);
+.v_balance th:nth-child(odd) {
+  background-color: rgba(16 185 129);
+}
+
+/* table */
+.r_table caption{
+  font-weight: bold;
+  text-align: center;
+  font-size: 1em;
+  color: #dadce0;
+  background-color: rgb(10 10 10);
+  height: 3vh;
+  padding: 1vh 1vh;
+}
+.r_table {
+  margin:auto;
+  width: 100%;
+  padding: 10px 20px;
+  border: 1px solid rgba(129, 129, 129, 500);
+  border-collapse: collapse;
+  font-family: amiri;
+}
+.r_table td{
+  width: auto;
+  height:5vh;
+  text-align: center;
+  color: black;
+  font-weight: bold;
+}
+
+.r_table th{
+  color: rgba(85, 85, 85);
+  background-color: rgb(245 245 245);
+  width: 12vh;
+  height:4vh;
+  text-align: center;
 }
 
 /* div */

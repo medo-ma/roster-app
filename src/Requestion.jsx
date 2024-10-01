@@ -53,7 +53,7 @@ return(
       {type !== undefined && <BtnP/>} 
 
     </Box>
-    <div><h2>{Vtotaldays}</h2></div>
+    {/* <div><h2>{Vtotaldays}</h2></div> */}
     </Container>
 </>
 )
@@ -112,7 +112,7 @@ function Page1({firstV,setfirstV,firstVmonth,setfirstVmonth,BtnP,BtnunP,Vtotalda
 }
 
 </Box>
-<div><h2>{Vtotaldays}</h2></div>
+{/* <div><h2>{Vtotaldays}</h2></div> */}
 </Container>
 </>
     );
@@ -161,7 +161,7 @@ function Page2({secondV,setsecondV,secondVmonth,setsecondVmonth,BtnP,BtnunP,Vtot
   : ((secondV > day) && (secondVmonth == month)) && <AlertoV />
 }
 </Box>
-<div><h2>{Vtotaldays}</h2></div>
+{/* <div><h2>{Vtotaldays}</h2></div> */}
 </Container>
 </>);
 }
@@ -260,17 +260,17 @@ export default function Requestion({fetchData,totalV_E,totalV_C,pendingv,BtnunF,
     const [thirdV,setthirdV] = useState(0);
     const [thirdVmonth,setthirdVmonth] = useState(0);
     const [exceededlimit,setexceededlimit]=useState(false);
-    const BtnP = () => <button className='btnf'  onClick={dopage}>next</button>;
+    const BtnP = () => <button className='btnf'  onClick={dopage}>التالي</button>;
     function dopage(){console.log(page,pendingv,notOvtotaldays);
     if(exceededlimit){setpage(4)}else if(!exceededlimit && page != 0 ){setnotOvtotaldays(notOvtotaldays + 1);setpage(page + 1);} else{setpage(page + 1);};
     
     }
-    const BtnunP = () => <button className='btnf'  onClick={undopage}>back</button>;
+    const BtnunP = () => <button className='btnf'  onClick={undopage}>رجوع</button>;
     function undopage(){
       if(page==0 || page==1 ){setpage(page - 1);}else if(page === 5){setStep(3)}else if(page === 4){setpage(0);setnotOvtotaldays(Vtotaldays)}else {setnotOvtotaldays(notOvtotaldays - 1);setpage(page - 1);}
 
     }
-    const BtnSubmit = () => <button className='btnf'  onClick={submit}>Submit</button>;
+    const BtnSubmit = () => <button className='btnf'  onClick={submit}>تأكيد</button>;
     const submit = async () => {
         requestV();
         setStep(3)

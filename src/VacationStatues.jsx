@@ -134,7 +134,7 @@ const Vstatus = ({ scode, pendingv, setpendingv }) => {
     return (
         <>
             <div>
-                <table>
+                <table className='r_table'>
                     <caption>طلبات العوارض</caption>
                     <thead>
                         <tr>
@@ -158,7 +158,7 @@ const Vstatus = ({ scode, pendingv, setpendingv }) => {
             </div>
             <br />
             <div>
-                <table>
+                <table className='r_table'>
                     <caption>طلبات الاعتيادي</caption>
                     <thead>
                         <tr>

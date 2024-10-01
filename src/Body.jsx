@@ -8,6 +8,7 @@ import Alerto from './Alerto'
 import AlertoExist from './AlertoExist.jsx'
 import Requestion from"./Requestion.jsx"
 import Vstatus from"./VacationStatues.jsx"
+import { Row } from 'react-aria-components';
 
 function Step1 ({scode,rememberMe, handleSet, BtnF,ForsignUp,RememberMeChange}){
     return(<>
@@ -18,8 +19,8 @@ function Step1 ({scode,rememberMe, handleSet, BtnF,ForsignUp,RememberMeChange}){
                 justifyContent: "center",
                 }}
   >
-    <Typography component="h1" variant="h5">
-        Login
+    <Typography component="h1" variant="h5" sx={{alignSelf:'center',fontFamily:'amiri',fontWeight:'400',fontSize:'1.5em'}} >
+        تسجيل الدخول
     </Typography>
     <Box sx={{ mt: 1 }}>
 
@@ -48,17 +49,17 @@ function Step1 ({scode,rememberMe, handleSet, BtnF,ForsignUp,RememberMeChange}){
 
     <BtnF />     
     <FormControlLabel
-            control={<Checkbox checked={rememberMe} onChange={RememberMeChange} />}
-            label="Remember Me"
+            control={<Checkbox checked={rememberMe} onChange={RememberMeChange}  />}
+            label="تذكرني"
             
           />
-    <a className='signUP' onClick={ForsignUp} >sign up</a>
+    <a className='signUP'  onClick={ForsignUp} >تعيين كلمة السر</a>
     </Stack>
     </Stack> 
     </Container>
     </> )}
 
-function Step2 ({ passwrong,pass,handlePass,BtnG,student }){
+function Step2 ({ bUnSubmit,passwrong,pass,handlePass,BtnG,student }){
     return(<>
     
     <Container component="main" maxWidth="xs">
@@ -92,6 +93,13 @@ function Step2 ({ passwrong,pass,handlePass,BtnG,student }){
             justifyContent: "center",
             alignItems: "center",}}  >
     <BtnG />
+    <Button
+            variant="contained"
+            sx={{ width:'50%', mt: 3, mb: 2 ,backgroundColor:'grey',fontFamily:'amiri',fontWeight:'700',fontSize:'1em' }}
+            onClick={bUnSubmit} // Call the function passed via props
+          >
+            عودة
+          </Button>
     {passwrong === true && <Alerto></Alerto>}
     </Stack>
     </Stack>
@@ -112,10 +120,10 @@ function Step3({student, row, dostep,Vstatus,scode,pendingv,setpendingv,totalV_C
         <Button
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, fontSize:'1em',fontFamily:'amiri' }}
             onClick={() => dostep()} // Call the function passed via props
           >
-            request a vacation
+            طلب إجازة
           </Button>
         </Stack>
         <StudentPage totalV_C={totalV_C} totalV_E={totalV_E} data={student} row={row}/>
@@ -126,15 +134,15 @@ function Step3({student, row, dostep,Vstatus,scode,pendingv,setpendingv,totalV_C
     )
 }
 
-function Step0({setNPass,setNscode,Npass,Nscode,Nname,setNname,signUp,Aleo}){
+function Step0({bSubmit,setNPass,setNscode,Npass,Nscode,Nname,setNname,signUp,Aleo}){
     return(<>
         <Container component="main" maxWidth="xs">
         <Box>
         <Typography component="h1" variant="h5">
-        Sign-Up
+        تغيير كلمة السر 
         </Typography>
         <Box sx={{ mt: 1 }}>
-        <TextField
+        {/* <TextField
             margin="normal"
             required
             fullWidth
@@ -145,7 +153,7 @@ function Step0({setNPass,setNscode,Npass,Nscode,Nname,setNname,signUp,Aleo}){
             autoFocus
             value={Nname}
             onChange={(e)=>setNname(e.target.value)}
-          />
+          /> */}
           <TextField
             margin="normal"
             required
@@ -170,13 +178,21 @@ function Step0({setNPass,setNscode,Npass,Nscode,Nname,setNname,signUp,Aleo}){
             value={Npass}
             onChange={(e)=>setNPass(e.target.value)}
           />
+            <Button
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2,fontFamily:'amiri',fontWeight:'700',fontSize:'1em' }}
+            onClick={signUp} // Call the function passed via props
+          >
+            تأكيد
+          </Button>
           <Button
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            onClick={signUp} // Call the function passed via props
+            sx={{ mt: 3, mb: 2 ,backgroundColor:'grey',fontFamily:'amiri',fontWeight:'700',fontSize:'1em' }}
+            onClick={bSubmit} // Call the function passed via props
           >
-            Sign-Up
+            عودة
           </Button>
         </Box>
         {Aleo === true && <AlertoExist/>}
@@ -218,7 +234,7 @@ export default function Body() {
     const [isAdmin,setisAdmin] = useState(0)
     //vacation
 
-    const [E_vacation,setE_vacation] = useState(3);
+    const [E_vacation,setE_vacation] = useState(2);
     const [C_vacation,setC_vacation] = useState(7.5);
     const [totalV_C,settotalV_C] = useState('wait');
     const [totalV_E,settotalV_E] = useState('wait');
@@ -239,11 +255,11 @@ export default function Body() {
     const bSubmit = () => setStep(step + 1);
     //const memoSubmit = () => setStep(step + 2);
     const bUnSubmit = () => setStep(step - 1);
-    const BtnF = () => <button className='btnf'  onClick={BtnFC}>next</button>;
+    const BtnF = () => <button className='btnf'  onClick={BtnFC}>التالي</button>;
     const BtnFC = ()=>{bSubmit() ; fetchData(scode)}
-    const BtnunF = () => <button className='btnf'  onClick={BtnunFC}>back</button>;
+    const BtnunF = () => <button className='btnf'  onClick={BtnunFC}>رجوع</button>;
     const BtnunFC = ()=>{bUnSubmit()}
-    const BtnG = () => <button className='btng'   onClick={BtnGC}>submit</button>;
+    const BtnG = () => <button className='btng'   onClick={BtnGC}>تأكيد</button>;
     const BtnGC = ()=>{if(pass === student[1]){
         setPasswrong(false)
 
@@ -261,22 +277,16 @@ export default function Body() {
         setPasswrong(true);
     }}
     const signUp = async () => {
-        try {
+
           // Await the fetchData request to complete and use the return value
-          const isWrong = await fetchData(Nscode);
       
           // Check if the data is correct
-          if (isWrong) {
             setAleo(false)
             console.log('Proceeding with sign-up');
             handleSignUp(); // Call the sign-up handler
             bSubmit(); // Move to the next step
-          } else {
-             setAleo(true)
-          }
-        } catch (error) {
-          console.error('Error during sign-up:', error);
-        }
+
+
       };
     //##handlers##
     //handle-setting number
@@ -347,7 +357,8 @@ const handleSubmit = () => {
 
 //test hereeeeeeeee
 useEffect(()=>{
-  settotalV_C(C_vacation-student[37])
+  // the total C is: C_vacation-student[37]
+  settotalV_C('معلق حتى شهر 4')
   settotalV_E(E_vacation-student[38])
 
 },[student])
@@ -355,12 +366,8 @@ useEffect(()=>{
 // Update fetchData to return true/false based on match
 const fetchData = async (v) => {
     try {
-      const response = await axios.get('https://001-ochre-five.vercel.app/api/sheets', {
-        params: {
-          search: v,
-          columns: 'A,B',
-          sheet: `Sheet${month}`
-        }
+      const response = await axios.post('https://001-ochre-five.vercel.app/api/sheets/sign_in', {
+      scode:`${scode}`,
       });
   
       // If status is 'false', indicate no match found
@@ -369,14 +376,14 @@ const fetchData = async (v) => {
         console.log('No match found');
         return true; // Indicate that data is wrong
       } else {
-        setStudent(response.data.matches[0].student); // Set student data
-        setsname(response.data.matches[0].student[2]);
-        setscode(response.data.matches[0].student[1]);
-        setVtotaldays(Number(response.data.matches[0].student[36]));
-        setisAdmin(Number(response.data.matches[0].student[39]));
-        console.log(`are u ${isAdmin}`);
-        setRow(response.data.matches[0].index); // Set row data
+        setStudent(response.data.matches.student); // Set student data
+        setsname(response.data.matches.student[2]);
+        setscode(response.data.matches.student[0]);
+        setVtotaldays(Number(response.data.matches.student[36]));
+        setisAdmin(Number(response.data.matches.student[37]));
         
+        setRow(response.data.matches.index[0]); // Set row data
+        // console.log(`are u ----------- ${row}`);
         setwrong(false); // Mark as correct match
 
         return false; // Indicate data is correct
@@ -389,12 +396,9 @@ const fetchData = async (v) => {
 
       const handleSignUp = async () => {
         try {
-          const response = await axios.post('https://001-ochre-five.vercel.app/api/sheets/add', {
-            Sheet:`Sheet${month}`,
-            range:"A:C",
-            column_a: `${Nscode}`,
-            column_b: `${Npass}`,
-            column_c: `${Nname}`,
+          const response = await axios.post('https://001-ochre-five.vercel.app/api/sheets/change_pass', {
+            scode:`${Nscode}`,
+            pass:`${Npass}`,
           });
           console.log('Response:', response.data);
         } catch (error) {
@@ -406,9 +410,9 @@ const fetchData = async (v) => {
     return (
         <>
         <body>
-            {step === 0 && <Step0 Aleo={Aleo} Nname={Nname} setNname={setNname} Nscode={Nscode} Npass={Npass} setNscode={setNscode} setNPass={setNPass} signUp={signUp}/>}
+            {step === 0 && <Step0 bSubmit={bSubmit} Aleo={Aleo} Nname={Nname} setNname={setNname} Nscode={Nscode} Npass={Npass} setNscode={setNscode} setNPass={setNPass} signUp={signUp}/>}
             {step === 1 && <Step1 scode={scode} rememberMe={rememberMe} ForsignUp={bUnSubmit} handleSet={handleSet}  BtnF={BtnF}  RememberMeChange={handleRememberMeChange}  />}
-            {step === 2 && <Step2 passwrong={passwrong} pass={pass} handlePass={handlePass} student={student} BtnG={BtnG} />} 
+            {step === 2 && <Step2 bUnSubmit={bUnSubmit} passwrong={passwrong} pass={pass} handlePass={handlePass} student={student} BtnG={BtnG} />} 
             {step === 3 && <Step3 totalV_C={totalV_C} totalV_E={totalV_E} student={student} pendingv={pendingv} setpendingv={setpendingv} signIn={BtnGC} dostep={bSubmit} row={row} Vstatus={Vstatus} scode={scode} />}
             {step === 4 && <Requestion fetchData={fetchData} totalV_E={totalV_E} totalV_C={totalV_C} pendingv={pendingv} BtnunF={BtnunF} scode={scode} sname={sname} setStep={setStep} Vtotaldays={Vtotaldays} setVtotaldays={setVtotaldays} Vtotaldayslimit={Vtotaldayslimit} />}
             {step === 10 && <Adminp VacationRequests={VacationRequests} isAdmin={isAdmin}/>}
