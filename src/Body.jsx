@@ -9,6 +9,7 @@ import AlertoExist from './AlertoExist.jsx'
 import Requestion from"./Requestion.jsx"
 import Vstatus from"./VacationStatues.jsx"
 import { Row } from 'react-aria-components';
+import { useLoading } from './loading/LoadingContext.jsx';
 
 function Step1 ({scode,rememberMe, handleSet, BtnF,ForsignUp,RememberMeChange}){
     return(<>
@@ -216,7 +217,8 @@ function Adminp({VacationRequests,isAdmin}){
 
 
 export default function Body() {
-    //##states##
+  const { loading, setLoading } = useLoading();
+  //##states##
     const [step, setStep] = useState(1);
     const [scode, setscode] = useState(undefined);
     const [sname, setsname] = useState(undefined);
@@ -341,35 +343,36 @@ const handleRememberMeChange = (e) => {
 };
 
 const handleSubmit = () => {
-  
-  if (rememberMe) {
+
     // Save the username in localStorage
     localStorage.setItem('code', scode);
     localStorage.setItem('pass', pass);
     localStorage.setItem('admin', isAdmin);
-  } else {
+  
     // Clear any stored username if the user unchecks "Remember Me"
-    localStorage.removeItem('code');
-    localStorage.removeItem('pass');
-    localStorage.removeItem('admin');
-  } // Proceed with sign-in logic
+    //localStorage.removeItem('code');
+    //localStorage.removeItem('pass');
+    //localStorage.removeItem('admin');
+   // Proceed with sign-in logic
 };
 
 //test hereeeeeeeee
 useEffect(()=>{
   // the total C is: C_vacation-student[37]
   settotalV_C('معلق حتى شهر 4')
-  settotalV_E(E_vacation-student[38])
+  settotalV_E(E_vacation-student[39])
 
 },[student])
 
 // Update fetchData to return true/false based on match
 const fetchData = async (v) => {
+    setLoading(true);
     try {
+      
       const response = await axios.post('https://001-ochre-five.vercel.app/api/sheets/sign_in', {
       scode:`${scode}`,
       });
-  
+      
       // If status is 'false', indicate no match found
       if (response.data.status === 'false') {
         setwrong(true); // Mark as no match
@@ -391,10 +394,13 @@ const fetchData = async (v) => {
     } catch (error) {
       console.error('Error fetching data:', error);
       return true; // Return true to indicate error, so sign-up doesn't proceed
+    }finally{
+      setLoading(false);
     }
   };
 
       const handleSignUp = async () => {
+        setLoading(true);
         try {
           const response = await axios.post('https://001-ochre-five.vercel.app/api/sheets/change_pass', {
             scode:`${Nscode}`,
@@ -403,6 +409,8 @@ const fetchData = async (v) => {
           console.log('Response:', response.data);
         } catch (error) {
           console.error('Error:', error);
+        }finally{
+          setLoading(false);
         }
       };
 

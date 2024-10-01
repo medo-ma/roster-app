@@ -6,12 +6,13 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {TextField, Stack,Container} from '@mui/material';
+import {TextField, Stack,Container, checkboxClasses} from '@mui/material';
 import { useState, memo,useEffect  } from 'react';
 import axios from 'axios';
-
+import { useLoading } from './loading/LoadingContext.jsx';
 
 function Page0({settype,type,BtnP,BtnunF,Vtotaldays,totalV_C,totalV_E}){
+  
   const [disV_c,setdisV_c]=useState(false)
   const [disV_e,setdisV_e]=useState(false)
   const date = new Date() 
@@ -92,7 +93,7 @@ function Page1({firstV,setfirstV,firstVmonth,setfirstVmonth,BtnP,BtnunP,Vtotalda
 
             sx={{width:'100%'}}
             margin="normal"
-            required
+            required='true'
             fullWidth
             type="number"
             id="outlined-error-helper-text"
@@ -104,11 +105,14 @@ function Page1({firstV,setfirstV,firstVmonth,setfirstVmonth,BtnP,BtnunP,Vtotalda
 </Stack>
 
 <BtnunP/>
-<BtnP/>
+
+{(firstVmonth == month && firstV == day || firstVmonth == month && firstV == day - 1|| firstVmonth == month-1 && firstV == 29|| firstVmonth == month-1 && firstV == 30|| firstVmonth == month-1 && firstV == 31|| firstVmonth == month-1 && firstV == 28 )
+  && <BtnP/>
+}
 
 {(firstVmonth > month )
   ? <AlertoV />
-  : ((firstV > day) && (firstVmonth == month)) && <AlertoV />
+  : ((firstV > day+1) && (firstVmonth == month)) && <AlertoV />
 }
 
 </Box>
@@ -154,7 +158,8 @@ function Page2({secondV,setsecondV,secondVmonth,setsecondVmonth,BtnP,BtnunP,Vtot
         />
 </Stack>
 <BtnunP/>
-<BtnP/>
+ <BtnP/>
+
 
 {(secondVmonth > month )
   ? <AlertoV />
@@ -246,7 +251,7 @@ function Page5({BtnunP}){
 }
 
 export default function Requestion({fetchData,totalV_E,totalV_C,pendingv,BtnunF,scode,sname,setStep,Vtotaldayslimit,Vtotaldays,setVtotaldays}){
-
+  const { loading, setLoading } = useLoading();
     const [page,setpage] = useState(0)
     const [notOvtotaldays, setnotOvtotaldays] = useState(Vtotaldays);
     const today = new Date();
@@ -292,7 +297,7 @@ export default function Requestion({fetchData,totalV_E,totalV_C,pendingv,BtnunF,
 //monitior for vacation limit
 useEffect(() => {
   const checklimit = () => {
-    if (notOvtotaldays === 3 && Vtotaldays === 3 ||Vtotaldayslimit - notOvtotaldays <= 0 || page === 0 && notOvtotaldays === 4 ) {
+    if (notOvtotaldays === 3 && Vtotaldays === 3 ||Vtotaldayslimit - notOvtotaldays <= 0 || page === 0 && notOvtotaldays === 4) {
       console.log(`first : ${notOvtotaldays}`)
       setpage(5)
       setexceededlimit(true);
@@ -308,9 +313,22 @@ useEffect(() => {
   checklimit(); // Call the function here
 }, [page]);
 
+useEffect(()=>{
+  const chk=()=>{
+  if(page === 0 && totalV_E <= 0 ){
+    setpage(5)
+    setexceededlimit(true);
+  }else if(page === 0 && totalV_C <= 0){
+    setpage(5)
+    setexceededlimit(true);
+  }else{
+    setexceededlimit(false);
+  }};chk()
+},[])
 
 /* request a vacation */
 const requestV = async () => {
+    setLoading(true);
     try {
       // Create a JSON object for vacation dates
       const vacationDates = {};
@@ -343,7 +361,7 @@ const requestV = async () => {
       }, 2000);
     }catch (error) {
       console.error('Error:', error);
-    }
+    }finally{setLoading(false);}
   };
   
   return (
