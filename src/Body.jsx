@@ -49,11 +49,6 @@ function Step1 ({scode,rememberMe, handleSet, BtnF,ForsignUp,RememberMeChange}){
             alignItems: "center",}} >
 
     <BtnF />     
-    <FormControlLabel
-            control={<Checkbox checked={rememberMe} onChange={RememberMeChange}  />}
-            label="تذكرني"
-            
-          />
     <a className='signUP'  onClick={ForsignUp} >تعيين كلمة السر</a>
     </Stack>
     </Stack> 
@@ -236,7 +231,7 @@ export default function Body() {
     const [isAdmin,setisAdmin] = useState(0)
     //vacation
 
-    const [E_vacation,setE_vacation] = useState(2);
+    const [E_vacation,setE_vacation] = useState(1.5);
     const [C_vacation,setC_vacation] = useState(7.5);
     const [totalV_C,settotalV_C] = useState('wait');
     const [totalV_E,settotalV_E] = useState('wait');

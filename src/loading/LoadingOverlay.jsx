@@ -9,7 +9,7 @@ const LoadingOverlay = () => {
   if (!loading) return null;
   return (
     <div className="loading-overlay">
-      Loading...
+      <h1>...جارٍ التنفيذ</h1><div class="lds-ring"><div></div><div></div><div></div><div></div></div>
     </div>
   );
 };
