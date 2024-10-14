@@ -13,7 +13,7 @@ export default function Etaple({ isAdmin }) {
         try {
           const response = await axios.get('https://001-ochre-five.vercel.app/api/sheets/requests',
             {params:{
-              type:"E"
+              
   
             }}
           );
@@ -57,14 +57,14 @@ export default function Etaple({ isAdmin }) {
   };
 
   // Function to approve or reject a request by row index
-  const updateStatus = async (rowIndex, scode, status, dates) => {
+  const updateStatus = async (rowIndex, scode, status, dates , type) => {
     try {
       await axios.post('https://001-ochre-five.vercel.app/api/sheets/update-status', {
         row_index: rowIndex,  // Row index in the Google Sheets
         scode,                // Student code
         status,               // Status to update (Approved/Rejected)
         dates,                 // Dates in JSON format
-        type:'E'
+        type
       });
       // Update UI after status change
       setRequests((prevRequests) =>
@@ -79,7 +79,7 @@ export default function Etaple({ isAdmin }) {
   };
 
   // Ensure requests is an array before filtering
-  const pendingRequests = Array.isArray(requests) ? requests.filter(req => req.status === 'Pending') : [];
+  const pendingRequests = Array.isArray(requests) ? requests.filter(req => req.status === 'Pending' && (req.type === 'E' || req.type === 'HE')) : [];
 
   return (
     <div>
@@ -89,6 +89,7 @@ export default function Etaple({ isAdmin }) {
           <tr>
         <th> </th>
         {/* <th>حالة الطلب</th> */}
+        <th>نوع الاجازة</th>
         <th>تواريخ الإجازة المطلوبة</th>
         <th>الاسم</th>
         {/* <th>رمز الطالب</th> */}
@@ -105,12 +106,13 @@ export default function Etaple({ isAdmin }) {
 
                 <td >
                 <div className='button-container'>
-                <button className="Rejected" onClick={() => updateStatus(req.rowIndex, req.scode, 'Rejected', req.dates)}>رفض</button>
-                <button className="Approved" onClick={() => updateStatus(req.rowIndex, req.scode, 'Approved', req.dates)}>قبول</button>
+                <button className="Rejected" onClick={() => updateStatus(req.rowIndex, req.scode, 'Rejected', req.dates,req.type)}>رفض</button>
+                <button className="Approved" onClick={() => updateStatus(req.rowIndex, req.scode, 'Approved', req.dates,req.type)}>قبول</button>
                 </div>
                 </td>
 
                 {/* <td>{req.status}</td> */}
+                <td>{req.type}</td>
                 <td>{formatDates(req.dates)}</td>
                 <td>{req.sname}</td>
                 {/* <td>{req.scode}</td> */}

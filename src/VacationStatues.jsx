@@ -32,12 +32,11 @@ const formatDates = (datesString) => {
 };
 
 const Vstatus = ({ scode, pendingv, setpendingv }) => {
-    const [requests_c, setRequests_c] = useState([]);
-    const [requests_e, setRequests_e] = useState([]);
+    const [requests, setRequests] = useState([]);
     const lookhere='loook here>>>>>>>>>>>>>>'
     useEffect(()=> {
     const pendingVfetcher =()=>{
-    const pend_e = requests_e.filter(req => req.status === 'Pending');
+    const pend_e = requests.filter(req => req.status === 'Pending' && (req.type === 'HE' || req.type === 'E'));
     const pend_enum = pend_e.filter(request => {
         let dates;
         try {
@@ -65,7 +64,7 @@ const Vstatus = ({ scode, pendingv, setpendingv }) => {
     .filter(day => day !== undefined && day !== ""); // Flatten the array of arrays into a single array
     
     
-    const pend_c = requests_c.filter(req => req.status === 'Pending');
+    const pend_c = requests.filter(req => req.status === 'Pending' && (req.type === 'HC' || req.type === 'C'));
     const pend_cnum = pend_c.filter(request => {
         let dates;
         try {
@@ -96,40 +95,29 @@ const Vstatus = ({ scode, pendingv, setpendingv }) => {
     console.log(pend_e.length + pend_c.length, pendingv,pend_enum.length,pend_cnum.length);
     };pendingVfetcher();
 
-},[requests_c,requests_e])
+},[requests])
     // Fetch student's vacation requests
+    
     useEffect(() => {
-        const fetchStudentRequestsE = async () => {
+        const fetchStudentRequests = async () => {
             try {
-                const responseE = await axios.get('https://001-ochre-five.vercel.app/api/sheets/student-requests_e', {
+                const responseC = await axios.get('https://001-ochre-five.vercel.app/api/sheets/student-requests', {
                     params: { scode }
                 });
-                console.log('Requests-E:', responseE.data.requests);
-                setRequests_e(responseE.data.requests);
+                console.log('Requests:', responseC.data.requests);
+                setRequests(responseC.data.requests);
             } catch (error) {
-                console.error('Error fetching student requests E:', error);
+                console.error('Error fetching student requests:', error);
             }
         };
     
-        fetchStudentRequestsE();
+        fetchStudentRequests();
     }, [scode]);
-    
-    useEffect(() => {
-        const fetchStudentRequestsC = async () => {
-            try {
-                const responseC = await axios.get('https://001-ochre-five.vercel.app/api/sheets/student-requests_c', {
-                    params: { scode }
-                });
-                console.log('Requests-C:', responseC.data.requests);
-                setRequests_c(responseC.data.requests);
-            } catch (error) {
-                console.error('Error fetching student requests C:', error);
-            }
-        };
-    
-        fetchStudentRequestsC();
-    }, [scode]);
-    
+
+
+    const pendingRequests_C = Array.isArray(requests) ? requests.filter(req => req.status === 'Pending' && (req.type === 'C' || req.type === 'HC') ) : [];
+
+    const pendingRequests_E = Array.isArray(requests) ? requests.filter(req => req.status === 'Pending' && (req.type === 'E' || req.type === 'HE')) : [];
 
     return (
         <>
@@ -143,10 +131,10 @@ const Vstatus = ({ scode, pendingv, setpendingv }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {requests_e.length === 0 ? (
+                        {requests.length === 0 ? (
                             <tr><td>لا يوجد</td><td>لا يوجد</td></tr>
                         ) : (
-                            requests_e.map((req, index) => (
+                            pendingRequests_E.map((req, index) => (
                                 <tr key={index}>
                                     <td>{req.status}</td> {/* Show the status (Pending, Approved, Rejected) */}
                                     <td>{formatDates(req.dates)}</td> {/* Format and display vacation dates */}
@@ -167,10 +155,10 @@ const Vstatus = ({ scode, pendingv, setpendingv }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {requests_c.length === 0 ? (
+                        {requests.length === 0 ? (
                             <tr><td>لا يوجد</td><td>لا يوجد</td></tr>
                         ) : (
-                            requests_c.map((req, index) => (
+                            pendingRequests_C.map((req, index) => (
                                 <tr key={index}>
                                     <td>{req.status}</td> {/* Show the status (Pending, Approved, Rejected) */}
                                     <td>{formatDates(req.dates)}</td> {/* Format and display vacation dates */}

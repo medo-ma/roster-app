@@ -47,7 +47,10 @@ return(
           onChange={(e)=>settype(e.target.value)}
         >
           <MenuItem value={"C"} disabled={disV_c}>اعتيادي - معطلة حتى شهر 4 -</MenuItem>
+          <MenuItem value={"HC"} disabled={disV_c}>اعتيادي صباحي "نص يوم" - معطلة حتى شهر 4 -</MenuItem>
+
           <MenuItem value={"E"} disabled={disV_e}>عارضة</MenuItem>
+          <MenuItem value={"HE"} disabled={disV_e}>"عارضة صباحي "نص يوم</MenuItem>
         </Select>
       </FormControl>
       <BtnunF/>
@@ -116,7 +119,7 @@ function Page1({firstV,setfirstV,firstVmonth,setfirstVmonth,BtnP,BtnunP,Vtotalda
 }
 
 </Box>
-{/* <div><h2>{Vtotaldays}</h2></div> */}
+<div><h2>{Vtotaldays}</h2></div>
 </Container>
 </>
     );
@@ -166,7 +169,7 @@ function Page2({secondV,setsecondV,secondVmonth,setsecondVmonth,BtnP,BtnunP,Vtot
   : ((secondV > day) && (secondVmonth == month)) && <AlertoV />
 }
 </Box>
-{/* <div><h2>{Vtotaldays}</h2></div> */}
+<div><h2>{Vtotaldays}</h2></div>
 </Container>
 </>);
 }
@@ -265,15 +268,18 @@ export default function Requestion({fetchData,totalV_E,totalV_C,pendingv,BtnunF,
     const [thirdV,setthirdV] = useState(0);
     const [thirdVmonth,setthirdVmonth] = useState(0);
     const [exceededlimit,setexceededlimit]=useState(false);
+    
     const BtnP = () => <button className='btnf'  onClick={dopage}>التالي</button>;
+    
+    
     function dopage(){console.log(page,pendingv,notOvtotaldays);
-    if(exceededlimit){setpage(4)}else if(!exceededlimit && page != 0 ){setnotOvtotaldays(notOvtotaldays + 1);setpage(page + 1);} else{setpage(page + 1);};
+    if(exceededlimit){setpage(4)}else if(!exceededlimit && page != 0 && (type ==='E' || type ==='C') ){setnotOvtotaldays(notOvtotaldays + 1);setpage(page + 1);}else if(!exceededlimit && page != 0 && (type ==='HE' || type ==='HC') ){setnotOvtotaldays(notOvtotaldays + .5);setpage(page + 1);} else{setpage(page + 1);};
     
     }
     const BtnunP = () => <button className='btnf'  onClick={undopage}>رجوع</button>;
     function undopage(){
-      if(page==0 || page==1 ){setpage(page - 1);}else if(page === 5){setStep(3)}else if(page === 4){setpage(0);setnotOvtotaldays(Vtotaldays)}else {setnotOvtotaldays(notOvtotaldays - 1);setpage(page - 1);}
-
+      if(page==0 || page==1 ){setpage(page - 1);}else if(page === 5){setStep(3)}else if(page === 4){setpage(0);setnotOvtotaldays(Vtotaldays)}else if(!exceededlimit && page != 0 && (type ==='HE' || type ==='HC') ){setnotOvtotaldays(notOvtotaldays - .5);setpage(page - 1);console.log('u here')}else {setnotOvtotaldays(notOvtotaldays - 1);setpage(page - 1);}
+      
     }
     const BtnSubmit = () => <button className='btnf'  onClick={submit}>تأكيد</button>;
     const submit = async () => {
@@ -308,6 +314,17 @@ useEffect(() => {
     }else{
       setexceededlimit(false);
       console.log(notOvtotaldays)
+    }
+  };
+  checklimit(); // Call the function here
+}, [page]);
+
+useEffect(() => {
+  const checklimit = () => {
+    if (page === 2 &&(type === 'HC'|| type === 'HE' )) {
+      setpage(4)
+    }else{
+    return;
     }
   };
   checklimit(); // Call the function here
@@ -348,12 +365,13 @@ const requestV = async () => {
       const vacationDatesString = JSON.stringify(vacationDates);
   
       const response = await axios.post('https://001-ochre-five.vercel.app/api/sheets/add', {
-        Sheet: `Requests-${type}`,      // Vacation type (e.g., "C" or "E")
-        range: "A:D",                   // Adjust range, only A:D needed now (status in separate column)
+        Sheet: `Requests`,      // Vacation type (e.g., "C" or "E")
+        range: "A:E",                   // Adjust range, only A:D needed now (status in separate column)
         column_a: `${scode}`,            // Student code (unique ID)
         column_b: `${sname}`,            // Student name
         column_c: vacationDatesString,         // Store the JSON string of all vacation dates in one cell
-        column_d: "Pending"             // Initial status of the vacation request
+        column_d: "Pending",             // Initial status of the vacation request
+        column_e: `${type}`
       });
       console.log('Response:', response.data);
       setTimeout(() => {
